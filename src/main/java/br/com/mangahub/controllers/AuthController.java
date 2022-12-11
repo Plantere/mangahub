@@ -26,7 +26,7 @@ public class AuthController {
     @GetMapping("/registrar")
     public String register(Users user, Model model) {
         model.addAttribute("user", user);
-        return "auth/register";
+        return "auth/registrar";
     }
 
     @PostMapping("/registrar")

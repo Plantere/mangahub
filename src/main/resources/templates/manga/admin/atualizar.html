@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MangaHub - Registro de Mangas</title>
+</head>
+<body>
+    <div class="content">
+        <form th:action="@{/manga/atualizar/{id}(id=${manga.id})}" method="POST" th:object="${manga}">
+            <label for="name">Nome</label>
+            <input type="text" th:field="*{mangaName}">
+            <label for="description">Descrição</label>
+            <input type="text" th:field="*{mangaDescription}">
+            <label for="path">Caminho</label>
+            <input type="text" th:field="*{mangaPath}">
+            <label for="age_group">Faixa Etaria</label>
+            <input type="text" th:field="*{ageGroup}">
+            <label for="age_group">Data de Lançamento</label>
+            <input type="datetime" th:field="*{releasedAt}">
+            <label for="cover">Capa</label>
+            <input type="text">
+
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</body>
+</html>
