@@ -2,6 +2,7 @@ package br.com.mangahub.models;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -27,11 +28,18 @@ public class ChaptersReads implements Serializable {
     private int pageStop;
 
     @Column(name = "deleted_at")
+    @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
     private LocalDateTime deletedAt;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     @CreationTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
+    private LocalDateTime updatedAt;
 
     public Long getId() {
         return id;
@@ -88,8 +96,4 @@ public class ChaptersReads implements Serializable {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-
-    @Column(name = "updated_at")
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 }

@@ -3,12 +3,12 @@ package br.com.mangahub.models;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Table(name = "users")
@@ -18,6 +18,32 @@ public class Users implements Serializable {
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", columnDefinition = "VARCHAR(255)")
     private UUID id;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "status")
+    private Long status = Long.valueOf(1);
+
+    @Column(name = "role")
+    private Long role = Long.valueOf(1);
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "deleted_at")
+    @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
+    private LocalDateTime deletedAt;
+
+    @Column(name="created_at")
+    @CreationTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
+    private LocalDateTime updatedAt;
 
     @Column(name = "name")
     private String name;
@@ -93,27 +119,4 @@ public class Users implements Serializable {
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "status")
-    private Long status = Long.valueOf(1);
-
-    @Column(name = "role")
-    private Long role = Long.valueOf(1);
-
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
-
-    @Column(name="created_at")
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 }

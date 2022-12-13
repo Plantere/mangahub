@@ -3,6 +3,7 @@ CREATE TABLE mangas (
    name text NOT NULL,
    description text NOT NULL,
    path text NOT NULL,
+   cover text NOT NULL,
    age_group integer NOT NULL,
    released_at timestamp NOT NULL,
    deleted_at timestamp,

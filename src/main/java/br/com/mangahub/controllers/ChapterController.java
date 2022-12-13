@@ -3,7 +3,6 @@ package br.com.mangahub.controllers;
 import br.com.mangahub.interfaces.ChapterRepositoryInterface;
 import br.com.mangahub.interfaces.MangaRepositoryInterface;
 import br.com.mangahub.models.Chapters;
-import br.com.mangahub.models.Mangas;
 
 import java.util.Optional;
 

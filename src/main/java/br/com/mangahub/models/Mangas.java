@@ -9,10 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "mangas")
 public class Mangas implements Serializable{
@@ -35,12 +35,38 @@ public class Mangas implements Serializable{
     @Column(name = "age_group")
     private int ageGroup;
 
+    @Column(name = "cover")
+    private String mangaCover;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+    @Column(name = "released_at")
+    @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
+    private LocalDateTime releasedAt;
+
+    @Column(name = "created_at", updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getMangaCover() {
+        return mangaCover;
+    }
+
+    public void setMangaCover(String mangaCover) {
+        this.mangaCover = mangaCover;
     }
 
     public String getMangaName() {
@@ -106,19 +132,4 @@ public class Mangas implements Serializable{
     public void setReleasedAt(LocalDateTime releasedAt) {
         this.releasedAt = releasedAt;
     }
-
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
-
-    @Column(name = "released_at")
-    @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
-    private LocalDateTime releasedAt;
-
-    @Column(name = "created_at", updatable = false)
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 }
