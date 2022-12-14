@@ -1,5 +1,6 @@
 package br.com.mangahub.controllers;
 
+import br.com.mangahub.interfaces.ChapterPageRepositoryInterface;
 import br.com.mangahub.interfaces.ChapterRepositoryInterface;
 import br.com.mangahub.interfaces.MangaRepositoryInterface;
 import br.com.mangahub.models.Chapters;
@@ -23,7 +24,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class ChapterController {
     @Autowired
     private ChapterRepositoryInterface chapterRepository;
-    
+
+    @Autowired
+    private ChapterPageRepositoryInterface chapterPageRepository;
+
     @Autowired
     private ChapterPageService chapterPageService;
 
@@ -35,7 +39,7 @@ public class ChapterController {
     
     @GetMapping("/manga/{mangaID}/capitulo/registrar")
     public String redirectRegisterChapter(@PathVariable(required=true, name="mangaID") Long mangaID, Model model, Chapters chapter){
-        if(mangaRepository.findById(mangaID).isPresent() == false){
+        if(mangaRepository.existsById(mangaID) == false){
             return "redirect:/";
         }
 
@@ -46,7 +50,7 @@ public class ChapterController {
 
     @GetMapping("/manga/{mangaID}/capitulo/{capituloID}/atualizar")
     public String redirectUpdateChapter(@PathVariable(required=true, name="mangaID") Long mangaID, @PathVariable(required=true, name="capituloID") Long capituloID, Model model){
-        if(mangaRepository.findById(mangaID).isPresent() == false){
+        if(mangaRepository.existsById(mangaID) == false){
             return "redirect:/";
         }
 
@@ -55,20 +59,44 @@ public class ChapterController {
             return "redirect:/";
         }
 
-        model.addAttribute("chapter", chapter);
+        model.addAttribute("chapter", chapter.get());
 
-        return "manga/admin/capitulo/atualizarCapitulo";
+        return "manga/admin/capitulo/atualizarCapitulos";
     }
 
     @GetMapping("/capitulo/{capituloID}/registrar/pagina")
     public String redirectRegisterChapterPage(@PathVariable(required=true, name="capituloID") Long capituloID, Model model, ChaptersPages chaptersPages){
-        if(chapterRepository.findById(capituloID).isPresent() == false){
+        if(chapterRepository.existsById(capituloID) == false){
             return "redirect:/";
         }
 
         model.addAttribute("chaptersPage", chaptersPages);
         model.addAttribute("capituloID", capituloID);
+        
         return "manga/admin/capitulo/paginas/registrarPaginas";
+    }
+
+    @PostMapping("/capitulo/{capituloID}/deletar")
+    public String deleteChapter(@PathVariable(required=true, name="capituloID") Long capituloID){
+        Optional<Chapters> chapter = chapterRepository.findById(capituloID);
+
+        if(chapter.isPresent() == false){
+            return "redirect:/";
+        }
+
+        chapterService.deleteChapter(chapter.get());
+
+        return "redirect:/";
+    }
+
+    @PostMapping("/capitulo/{capituloID}/pagina/{paginaNumero}/deletar")
+    public String deleteChapterPage(@PathVariable(required=true, name="capituloID") Long capituloID, @PathVariable(required=true, name="paginaNumero") int paginaNumero){
+        if(chapterPageRepository.findByChapterIdAndPage(capituloID, paginaNumero).isPresent() == false){
+            return "redirect:/";
+        }
+
+        chapterPageRepository.deleteByChapterIdAndPage(capituloID, paginaNumero);
+        return "redirect:/";
     }
 
     @PostMapping("/capitulo/{capituloID}/registrar/pagina")

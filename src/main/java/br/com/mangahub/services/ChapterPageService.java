@@ -1,13 +1,14 @@
 package br.com.mangahub.services;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.mangahub.interfaces.ChapterPageRepositoryInterface;
-import br.com.mangahub.interfaces.ChapterRepositoryInterface;
 import br.com.mangahub.models.ChaptersPages;
 
 @Service
@@ -15,9 +16,6 @@ public class ChapterPageService {
     @Autowired
     private ChapterPageRepositoryInterface chapterPageRepository;
     
-    @Autowired
-    private ChapterRepositoryInterface chapterRepository;
-
     public boolean saveChapterPage(ChaptersPages chapterPage, MultipartFile imagePage){
         chapterPage.setImagePage(getImageByte(imagePage));
         chapterPageRepository.save(chapterPage);
@@ -25,6 +23,11 @@ public class ChapterPageService {
         return true;
     }
 
+    public boolean deleteByChapterId(Long chapterID){
+        chapterPageRepository.deleteByChapterId(chapterID);
+        return true;
+    }
+    
     public byte[] getImageByte(MultipartFile imagePage){
         byte[] imagePageByte = new byte[0];
         

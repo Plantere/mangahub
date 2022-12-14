@@ -11,6 +11,7 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "chapters")
+
 public class Chapters implements Serializable {
     private static final long serialVersionUID = 1;
 
@@ -22,7 +23,7 @@ public class Chapters implements Serializable {
     @JoinColumn(name = "manga_id")
     private Mangas manga;
 
-    @OneToMany(mappedBy= "chapter")
+    @OneToMany(mappedBy= "chapter", fetch=FetchType.EAGER)
     private Collection<ChaptersPages> chaptersPages;
 
     @Column(name = "number")

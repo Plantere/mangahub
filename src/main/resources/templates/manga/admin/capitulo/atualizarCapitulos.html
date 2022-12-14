@@ -19,7 +19,11 @@
             <label for="dataLancamento">Data de Lançamento</label>
             <input type="datetime" th:field="*{releasedAt}">
             <br>
-            <button>Enviar</button>
+            <button type="submit">Atualizar Capitulo</button>
+        </form>
+
+        <form th:action="@{/capitulo/{capituloID}/deletar(capituloID=${chapter.id})}" method="POST">
+            <button type="submit">Deletar</button>
         </form>
     </div>
 </body>
