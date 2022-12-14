@@ -15,7 +15,7 @@ public class Chapters implements Serializable {
     private static final long serialVersionUID = 1;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -33,7 +33,7 @@ public class Chapters implements Serializable {
     
     @Column(name = "released_at")
     @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
-    private LocalDateTime releaseAt;
+    private LocalDateTime releasedAt;
 
     @Column(name = "deleted_at")
     @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
@@ -89,12 +89,12 @@ public class Chapters implements Serializable {
         this.chapterTitle = chapterTitle;
     }
 
-    public LocalDateTime getReleaseAt() {
-        return releaseAt;
+    public LocalDateTime getReleasedAt() {
+        return releasedAt;
     }
 
-    public void setReleaseAt(LocalDateTime releaseAt) {
-        this.releaseAt = releaseAt;
+    public void setReleasedAt(LocalDateTime releasedAt) {
+        this.releasedAt = releasedAt;
     }
 
     public LocalDateTime getDeletedAt() {

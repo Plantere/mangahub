@@ -8,12 +8,13 @@
 </head>
 <body>
     <div class="content">
+        <h1>Registrar Mangas</h1>
         <form th:action="@{/manga/registrar}" method="POST" th:object="${manga}">
             <label for="name">Nome</label>
             <input type="text" th:field="*{mangaName}">
             <br>
             <label for="description">Descrição</label>
-            <input type="text" th:field="*{mangaDescription}">
+            <textarea th:field="*{mangaDescription}" cols="30" rows="10"></textarea>
             <br>
             <label for="path">Caminho</label>
             <input type="text" th:field="*{mangaPath}">

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MangaHub | Registrar Paginas</title>
+</head>
+<body>
+    <div class="content">
+        <h1>Registrar Paginas</h1>
+        <form th:action="${#request.requestURI}" method="POST" th:object="${chaptersPages}" enctype="multipart/form-data">
+            <label for="numberPage">Numero da Pagina: </label>
+            <input type="text" th:field="*{page}">
+            <br>
+            <label for="imagePageFile">Pagina: </label>
+            <input type="file" accept="image/*" name="imagePageFile" id="imagePageFile">
+            <br>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</body>
+</html>

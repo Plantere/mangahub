@@ -8,6 +8,7 @@
 </head>
 <body>
     <div class="content">
+        <h1>Atualizar Mangas</h1>
         <form th:action="@{/manga/atualizar/{id}(id=${manga.id})}" method="POST" th:object="${manga}">
             <label for="name">Nome</label>
             <input type="text" th:field="*{mangaName}">

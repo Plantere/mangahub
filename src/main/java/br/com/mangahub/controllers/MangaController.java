@@ -23,7 +23,7 @@ public class MangaController {
     @GetMapping("/manga/registrar")
     public String redirectRegister(Mangas manga, Model model){
         model.addAttribute("manga", manga);
-        return "manga/admin/registrar";
+        return "manga/admin/registrarManga";
     }
 
     @GetMapping("/manga/atualizar/{mangaID}")
@@ -36,7 +36,7 @@ public class MangaController {
 
         model.addAttribute("manga", manga.get());
         
-        return "manga/admin/atualizar";
+        return "manga/admin/atualizarManga";
     }
 
     @PostMapping("/manga/registrar")

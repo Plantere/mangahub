@@ -3,14 +3,10 @@ package br.com.mangahub.models;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,14 +18,20 @@ public class ChaptersPages implements Serializable {
 
     @Id
     @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "page")
+    @Column(name = "number")
     private int page;
 
     @ManyToOne
     @JoinColumn(name="chapter_id")
     private Chapters chapter;
+
+    @Column(name = "image")
+    @Type(type="org.hibernate.type.BinaryType")
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] imagePage;
 
     @Column(name = "deleted_at")
     @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
@@ -51,6 +53,14 @@ public class ChaptersPages implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public byte[] getImagePage() {
+        return imagePage;
+    }
+
+    public void setImagePage(byte[] imagePage) {
+        this.imagePage = imagePage;
     }
 
     public int getPage() {

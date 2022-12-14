@@ -4,19 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MangaHub | Registrar Capitulos</title>
+    <title>MangaHub | Atualizar Capitulos</title>
 </head>
 <body>
     <div class="content">
-        <form th:action="@{/capitulo/registrar}" method="POST" th:object="${capitulo}">
+        <h1>Atualizar Capitulos</h1>
+        <form th:action="${#request.requestURI}" method="POST" th:object="${chapter}">
             <label for="numeroCapitulo">Numero do capitulo</label>
-            <input type="text">
+            <input type="text" th:field="*{chapterNumber}">
+            <br>
             <label for="tituloCapitulo">Titulo do capitulo</label>
-            <input type="text">
+            <input type="text" th:field="*{chapterTitle}">
+            <br>
             <label for="dataLancamento">Data de Lançamento</label>
-            <input type="text">
-            <label for="Paginas">Paginas</label>
-            <input type="text">
+            <input type="datetime" th:field="*{releasedAt}">
+            <br>
             <button>Enviar</button>
         </form>
     </div>
