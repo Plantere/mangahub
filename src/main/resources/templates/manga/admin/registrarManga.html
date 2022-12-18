@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<head th:include="~{/fragments/tailwind :: tailwindcss-head}">
     <title>MangaHub - Registro de Mangas</title>
 </head>
+
 <body>
     <div class="content">
         <h1>Registrar Mangas</h1>
         <form th:action="@{/manga/registrar}" method="POST" th:object="${manga}" enctype="multipart/form-data">
             <label for="name">Nome</label>
             <input type="text" th:field="*{mangaName}">
-            
+
             <br>
             <label for="description">Descrição</label>
             <textarea th:field="*{mangaDescription}" cols="30" rows="10"></textarea>
-            
+
             <br>
             <label for="age_group">Faixa Etaria</label>
             <input type="text" th:field="*{ageGroup}">
-            
+
             <br>
             <label for="released_at">Data de Lançamento</label>
             <input type="datetime" th:field="*{releasedAt}">
-            
+
             <br>
             <label for="imageCover">Capa: </label>
             <input type="file" accept="image/*" name="imageCover" id="imageCover">
-            
+
             <br>
             <button type="submit">Enviar</button>
         </form>
     </div>
 </body>
+
 </html>
