@@ -3,9 +3,19 @@ import br.com.mangahub.interfaces.MangaRepositoryInterface;
 import br.com.mangahub.models.Mangas;
 import br.com.mangahub.services.MangaService;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,9 +32,36 @@ public class MangaController {
     @Autowired
     private MangaRepositoryInterface mangaRepository;
 
+    @GetMapping("/manga")
+    public String listMangas(@RequestParam() Optional<Integer> page, Model model){
+        int currentPage = page.orElse(1) - 1;
+
+        Page<Mangas> mangaPage = mangaService.findAllByDeletedAtIsNull(currentPage);
+        model.addAttribute("mangas", mangaPage);
+        
+        int totalPages = mangaPage.getTotalPages();
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                                            .boxed()
+                                            .collect(Collectors.toList());
+        
+        model.addAttribute("pageNumbers", pageNumbers);
+        return "manga/mostrarManga";
+    }
+    
+    @GetMapping("/manga/{mangaID}")
+    public String getMangaById(@PathVariable(required=true, name="mangaID") Long mangaID, Model model){
+        Mangas manga = mangaRepository.findOneByIdAndDeletedAtIsNull(mangaID);
+
+        model.addAttribute("manga", manga);
+
+        return "manga/mostrarMangaEspecifico";
+    }
+    
+
     @GetMapping("/manga/registrar") // Registrar Manga
     public String redirectRegister(Mangas manga, Model model){
         model.addAttribute("manga", manga);
+    
         return "manga/admin/registrarManga";
     }
 
@@ -52,5 +89,4 @@ public class MangaController {
         mangaService.updateManga(mangaID, manga, imageCover);
         return "redirect:/";
     }
-
 }

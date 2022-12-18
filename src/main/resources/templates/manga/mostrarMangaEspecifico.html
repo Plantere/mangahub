@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" class="h-full">
+
+<head th:include="~{/fragments/tailwind :: common_header(title=${'MangaHub | '}+${manga.mangaName})}"></head>
+
+<body class="bg-black/95 h-full">
+    <div th:replace="~{/fragments/navbar :: navbar}" />
+
+    <section class="shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
+        <div class="rounded-lg bg-neutral-900 border-black pr-12 pb-12 pt-12">
+            <div class="flex items-center">
+                <div class="pl-12 pr-12">
+                    <img class="rounded-lg" style="min-width: 240px; max-width: 240px; min-height: 365px; max-height: 365px;" th:src="@{data:image/png;base64,{byte}(byte=${manga.getImageCoverInBase64()})}">
+                </div>
+                <div class="flex-1 w-96">
+                    <h1 class="mb-2 text-5xl font-bold tracking-tight text-gray-900 dark:text-white" th:text="${manga.mangaName}" />
+                    <h1 class="mb-2 tracking-tight text-gray-900 dark:text-white" th:text="${manga.mangaDescription}" style="white-space: pre-line" />
+                    <ul class="flex flex-wrap">
+                        <li th:each="chapter : ${manga.getChapters()}" class="mt-5 pl-1">
+                            <a class="px-3 py-2 bg-neutral-700 dark:hover:bg-primary-600 text-white rounded-full !px-6" th:href="@{/manga/{mangaID}/capitulo/{capituloID}(mangaID=${manga.id}, capituloID=${chapter.id})}" th:text="${chapter.chapterNumber}" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-12">
+                <div class="pr-2">
+                    <a class="px-3 py-2 dark:hover:bg-neutral-700 bg-primary-600 text-white rounded-full !px-6">
+                        Adicionar aos favoritos
+                    </a>
+                </div>
+                <div>
+                    <a class="px-3 py-2 dark:hover:bg-neutral-700 bg-primary-600 text-white rounded-full !px-6">Marcar como lido</a>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </section>
+</body>

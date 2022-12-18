@@ -1,8 +1,6 @@
 package br.com.mangahub.services;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

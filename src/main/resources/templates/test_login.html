@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head th:include="~{/fragments/tailwind :: tailwindcss-head}">
-    <title>MangaHub | Testar Usuario</title>
-</head>
+<head th:include="~{/fragments/tailwind :: common_header(title=${'MangaHub - Testar Usuario'})}"></head>
 
-<body>
+<body class="bg-black/95 h-full">
     <div sec:authorize="isAuthenticated()">
         O usuario está logado
         <p sec:authorize="hasRole('ROLE_ADMIN')"> O usuario é um administrador </p>

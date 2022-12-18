@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,7 +16,10 @@ import br.com.mangahub.models.Mangas;
 public class MangaService {
     @Autowired
     private MangaRepositoryInterface mangaRepository;
+    public Page<Mangas> findAllByDeletedAtIsNull(Integer page){
+        return mangaRepository.findAllByDeletedAtIsNull(PageRequest.of(page, 12));
 
+    }
     public boolean saveManga(Mangas manga, MultipartFile imageCover){
         manga.setMangaCover(getImageByte(imageCover));
         mangaRepository.save(manga);

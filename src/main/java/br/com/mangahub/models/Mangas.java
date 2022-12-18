@@ -4,17 +4,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
+import javax.persistence.*;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Base64;
+import java.util.Collection;
 
 @Entity
 @Table(name = "mangas")
@@ -54,6 +49,9 @@ public class Mangas implements Serializable{
     @Column(name = "updated_at")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy= "manga", fetch=FetchType.EAGER)
+    private Collection<Chapters> chapters;
 
     public Long getId() {
         return id;
@@ -125,5 +123,21 @@ public class Mangas implements Serializable{
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Collection<Chapters> getChapters() {
+        return chapters;
+    }
+
+    public void setChapters(Collection<Chapters> chapters) {
+        this.chapters = chapters;
+    }
+
+    public String getImageCoverInBase64(){
+        return new String(Base64.getEncoder().encode(this.getMangaCover()));
+    }
+
+    public Integer getTotalChapters(){
+        return getChapters().size();        
     }
 }

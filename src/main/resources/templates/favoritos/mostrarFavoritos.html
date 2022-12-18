@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head th:include="~{/fragments/tailwind :: tailwindcss-head}">
+<head th:include="~{/fragments/tailwind :: common_header(title=${'MangaHub - Mostrar Favoritos'})}">
     <title>MangaHub | Mostrar Favoritos</title>
 </head>
 
-<body>
+<body class="bg-black/95 h-full">
+    <div th:replace="~{/fragments/navbar :: navbar}"></div>
     <table>
         <th:block th:each="favorite : ${favorites}">
             <tr>
