@@ -13,6 +13,13 @@ import java.util.UUID;
 @Entity
 @Table(name = "users")
 public class Users implements Serializable {
+    @Override
+    public String toString() {
+        return "Users [id=" + id + ", email=" + email + ", status=" + status + ", role=" + role + ", password="
+                + password + ", deletedAt=" + deletedAt + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+                + ", name=" + name + "]";
+    }
+
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")

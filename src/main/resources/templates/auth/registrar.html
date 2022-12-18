@@ -83,7 +83,7 @@
             </a>
           </div>
 
-          <form class="space-y-4 md:space-y-6" method="POST" th:action="@{/register}" th:object="${user}">
+          <form class="space-y-4 md:space-y-6" method="POST" th:action="@{/registrar}" th:object="${user}">
             <div>
               <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome</label>
               <input type="text" th:field="*{name}"

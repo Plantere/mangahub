@@ -14,7 +14,7 @@ public class IndexController {
     private ChapterRepositoryInterface chapterRepository;
 
     @GetMapping("/")
-    public String index(Model model, @PageableDefault(size = 10) Pageable pageable) {
+    public String index(Model model) {
         // model.addAttribute("recents_chapters", chapterRepository.findTop10ByOrderByCreatedAt(pageable));
         return "index";
     }

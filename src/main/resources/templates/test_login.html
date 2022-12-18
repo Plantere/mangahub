@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MangaHub | Testar Usuario</title>
+</head>
+<body>
+    <div sec:authorize="isAuthenticated()">
+        O usuario está logado
+        <p sec:authorize="hasRole('ROLE_ADMIN')"> O usuario é um administrador </p>
+        Email Logado: <span sec:authentication="principal.username">E-mail logado ...</span>
+    </div>
+    <div sec:authorize="!isAuthenticated()">
+        O usuario não está logado
+    </div>
+</body>
+</html>

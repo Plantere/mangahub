@@ -1,11 +1,14 @@
 package br.com.mangahub.models;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,15 +32,14 @@ public class Mangas implements Serializable{
     @Column(name = "description")
     private String mangaDescription;
 
-    @Column(name = "path")
-    private String mangaPath;
-
     @Column(name = "age_group")
     private int ageGroup;
 
     @Column(name = "cover")
-    private String mangaCover;
-
+    @Type(type="org.hibernate.type.BinaryType")
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] mangaCover;
+    
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
@@ -61,14 +63,6 @@ public class Mangas implements Serializable{
         this.id = id;
     }
 
-    public String getMangaCover() {
-        return mangaCover;
-    }
-
-    public void setMangaCover(String mangaCover) {
-        this.mangaCover = mangaCover;
-    }
-
     public String getMangaName() {
         return mangaName;
     }
@@ -85,14 +79,6 @@ public class Mangas implements Serializable{
         this.mangaDescription = mangaDescription;
     }
 
-    public String getMangaPath() {
-        return mangaPath;
-    }
-
-    public void setMangaPath(String mangaPath) {
-        this.mangaPath = mangaPath;
-    }
-
     public int getAgeGroup() {
         return ageGroup;
     }
@@ -101,12 +87,28 @@ public class Mangas implements Serializable{
         this.ageGroup = ageGroup;
     }
 
+    public byte[] getMangaCover() {
+        return mangaCover;
+    }
+
+    public void setMangaCover(byte[] mangaCover) {
+        this.mangaCover = mangaCover;
+    }
+
     public LocalDateTime getDeletedAt() {
         return deletedAt;
     }
 
     public void setDeletedAt(LocalDateTime deletedAt) {
         this.deletedAt = deletedAt;
+    }
+
+    public LocalDateTime getReleasedAt() {
+        return releasedAt;
+    }
+
+    public void setReleasedAt(LocalDateTime releasedAt) {
+        this.releasedAt = releasedAt;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -121,15 +123,7 @@ public class Mangas implements Serializable{
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime releasedAt) {
-        this.releasedAt = releasedAt;
-    }
-
-    public LocalDateTime getReleasedAt() {
-        return releasedAt;
-    }
-
-    public void setReleasedAt(LocalDateTime releasedAt) {
-        this.releasedAt = releasedAt;
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

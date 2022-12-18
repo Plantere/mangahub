@@ -31,4 +31,6 @@ public interface ChapterRepositoryInterface extends JpaRepository<Chapters, Long
     @Transactional
     @Modifying
     void deleteById(Long id);
+
+    
 }

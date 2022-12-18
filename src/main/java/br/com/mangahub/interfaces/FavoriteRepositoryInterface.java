@@ -1,7 +1,13 @@
 package br.com.mangahub.interfaces;
 
 import br.com.mangahub.models.Favorites;
-import org.springframework.data.jpa.repository.JpaRepository;
+import br.com.mangahub.models.Users;
 
-public interface FavoriteRepositoryInterface extends JpaRepository<Favorites, Long> {
+import org.springframework.data.domain.Pageable;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+public interface FavoriteRepositoryInterface extends PagingAndSortingRepository<Favorites, Long> {
+    Page<Favorites> findAllByUserAndDeletedAtIsNull(Users user, Pageable pageable);
 }

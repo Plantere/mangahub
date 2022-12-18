@@ -33,11 +33,11 @@ public class ChapterController {
 
     @Autowired
     private ChapterService chapterService;
-    
+
     @Autowired
     private MangaRepositoryInterface mangaRepository;
     
-    @GetMapping("/manga/{mangaID}/capitulo/registrar")
+    @GetMapping("/manga/{mangaID}/capitulo/registrar") // Registrar capitulo
     public String redirectRegisterChapter(@PathVariable(required=true, name="mangaID") Long mangaID, Model model, Chapters chapter){
         if(mangaRepository.existsById(mangaID) == false){
             return "redirect:/";
@@ -48,7 +48,7 @@ public class ChapterController {
         return "manga/admin/capitulo/registrarCapitulos";
     }
 
-    @GetMapping("/manga/{mangaID}/capitulo/{capituloID}/atualizar")
+    @GetMapping("/manga/{mangaID}/capitulo/{capituloID}/atualizar") // Atualizar capitulo
     public String redirectUpdateChapter(@PathVariable(required=true, name="mangaID") Long mangaID, @PathVariable(required=true, name="capituloID") Long capituloID, Model model){
         if(mangaRepository.existsById(mangaID) == false){
             return "redirect:/";
@@ -64,7 +64,7 @@ public class ChapterController {
         return "manga/admin/capitulo/atualizarCapitulos";
     }
 
-    @GetMapping("/capitulo/{capituloID}/registrar/pagina")
+    @GetMapping("/capitulo/{capituloID}/registrar/pagina") // Registrar pagina
     public String redirectRegisterChapterPage(@PathVariable(required=true, name="capituloID") Long capituloID, Model model, ChaptersPages chaptersPages){
         if(chapterRepository.existsById(capituloID) == false){
             return "redirect:/";
@@ -76,7 +76,7 @@ public class ChapterController {
         return "manga/admin/capitulo/paginas/registrarPaginas";
     }
 
-    @PostMapping("/capitulo/{capituloID}/deletar")
+    @PostMapping("/capitulo/{capituloID}/deletar") // Deletar Capitulo
     public String deleteChapter(@PathVariable(required=true, name="capituloID") Long capituloID){
         Optional<Chapters> chapter = chapterRepository.findById(capituloID);
 
@@ -89,7 +89,7 @@ public class ChapterController {
         return "redirect:/";
     }
 
-    @PostMapping("/capitulo/{capituloID}/pagina/{paginaNumero}/deletar")
+    @PostMapping("/capitulo/{capituloID}/pagina/{paginaNumero}/deletar") // Deletar Pagina
     public String deleteChapterPage(@PathVariable(required=true, name="capituloID") Long capituloID, @PathVariable(required=true, name="paginaNumero") int paginaNumero){
         if(chapterPageRepository.findByChapterIdAndPage(capituloID, paginaNumero).isPresent() == false){
             return "redirect:/";
@@ -99,7 +99,7 @@ public class ChapterController {
         return "redirect:/";
     }
 
-    @PostMapping("/capitulo/{capituloID}/registrar/pagina")
+    @PostMapping("/capitulo/{capituloID}/registrar/pagina") // Registrar Pagina
     public String createChapterPage(@PathVariable(required=true, name="capituloID") Long capituloID, @RequestParam("imagePageFile") MultipartFile imagePage, ChaptersPages chaptersPages){
         Optional<Chapters> chapter = chapterRepository.findById(capituloID);
         if(chapter.isPresent() == false){
@@ -112,7 +112,7 @@ public class ChapterController {
         return "redirect:/";
     }
 
-    @PostMapping("/manga/{mangaID}/capitulo/registrar")
+    @PostMapping("/manga/{mangaID}/capitulo/registrar") // Registrar capitulo
     public String createChapter(@PathVariable(required=true, name="mangaID") Long mangaID, Chapters chapter){
         Optional<Mangas> manga = mangaRepository.findById(mangaID);
 
@@ -126,7 +126,7 @@ public class ChapterController {
         return "redirect:/";
     }
 
-    @PostMapping("/manga/{mangaID}/capitulo/{capituloID}/atualizar")
+    @PostMapping("/manga/{mangaID}/capitulo/{capituloID}/atualizar") // Atualizar capitulo
     public String updateChapter(@PathVariable(required=true, name="mangaID") Long mangaID, @PathVariable(required=true, name="capituloID") Long capituloID, Chapters chapter){
         Optional<Mangas> manga = mangaRepository.findById(mangaID);
         
@@ -139,4 +139,5 @@ public class ChapterController {
 
         return "redirect:/";
     }
+
 }
