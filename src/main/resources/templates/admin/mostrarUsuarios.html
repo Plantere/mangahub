@@ -14,10 +14,15 @@
                     <hr class="rounded yellow-border">
                 </div>
 
-                <div>
-                    <!-- <a th:href="@{/admin/usuario/pesquisar}" class="px-3 py-2 hover:bg-neutral-700 bg-primary-700 text-white rounded-full !px-6">Pesquisar</a> -->
-                    <a th:href="@{/admin/usuario/registrar}" class="px-3 py-2 hover:bg-neutral-700 bg-primary-700 text-white rounded-full !px-6">Criar Usuario</a>
+                <div class="flex place-content-between">
+                    <div class="pr-5">
+                        <a th:href="@{/admin/usuario/registrar}" class="px-3 py-2 hover:bg-neutral-700 bg-primary-700 text-white rounded-full !px-6">Criar Usuario</a>
+                    </div>
+                    <div>
+                        <a href="#" class="px-3 py-2 hover:bg-neutral-700 bg-primary-700 text-white rounded-full !px-6">Exportar</a>
+                    </div>
                 </div>
+
             </div>
             <div class="overflow-x-auto relative">
                 <table class="w-full text-sm text-center text-white">

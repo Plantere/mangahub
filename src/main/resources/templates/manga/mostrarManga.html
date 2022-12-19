@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" class="h-full">
 
-<head th:include="~{/fragments/tailwind :: common_header(title=${'MangaHub | Mangás'})}"></head>
+<head th:include="~{/fragments/tailwind :: common_header(title=${'MangaHub - Mangás'})}"></head>
 
 <body class="bg-black/95 h-full">
     <div th:replace="~{/fragments/navbar :: common_header(current=${'mangas'})}"></div>
 
     <section class="pb-12">
         <div class="flex place-content-center">
-            <div class="pl-12 pt-12 pr-12">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 yellow-color ">Mangás</h5>
+            <div class="pt-12" id="dropdown-show-manga" data-dropdown-toggle="dropdown-manga">
+                <h5 class="mb-2 text-3xl font-bold  text-gray-900 yellow-color ">Mangás</h5>
                 <hr class="rounded yellow-border">
+            </div>
+            <div sec:authorize="isAuthenticated() && hasRole('ROLE_ADMIN')" id="dropdown-manga" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow bg-neutral-900">
+                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-show-manga">
+                    <li>
+                        <a th:href="@{/manga/registrar}" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-neutral-500 dark:hover:text-white">Adicionar Manga
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
 
