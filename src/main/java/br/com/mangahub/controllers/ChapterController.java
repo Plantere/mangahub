@@ -36,7 +36,19 @@ public class ChapterController {
 
     @Autowired
     private MangaRepositoryInterface mangaRepository;
-    
+
+    @GetMapping("/manga/{mangaID}/capitulo/{capituloID}") // Registrar capitulos
+    public String showChapter(@PathVariable(required=true, name="mangaID") Long mangaID, @PathVariable(required=true, name="capituloID") Long capituloID, Model model){
+        Optional<Chapters> chapter = chapterRepository.findById(capituloID);
+        if(chapter.isPresent() == false){
+            return "redirect:/";
+        }
+
+        model.addAttribute("chapter", chapter.get());
+
+        return "manga/mostrarCapitulo";
+    }
+
     @GetMapping("/manga/{mangaID}/capitulo/registrar") // Registrar capitulo
     public String redirectRegisterChapter(@PathVariable(required=true, name="mangaID") Long mangaID, Model model, Chapters chapter){
         if(mangaRepository.existsById(mangaID) == false){

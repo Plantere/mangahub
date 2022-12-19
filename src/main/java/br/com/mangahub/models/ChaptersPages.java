@@ -2,6 +2,7 @@ package br.com.mangahub.models;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Base64;
 
 import javax.persistence.*;
 
@@ -101,5 +102,9 @@ public class ChaptersPages implements Serializable {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getImagePageAsBase64(){
+        return new String(Base64.getEncoder().encode(this.getImagePage()));
     }
 }

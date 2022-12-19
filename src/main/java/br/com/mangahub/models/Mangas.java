@@ -51,6 +51,7 @@ public class Mangas implements Serializable{
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy= "manga", fetch=FetchType.EAGER)
+    @OrderBy("chapterNumber")
     private Collection<Chapters> chapters;
 
     public Long getId() {
@@ -139,5 +140,36 @@ public class Mangas implements Serializable{
 
     public Integer getTotalChapters(){
         return getChapters().size();        
+    }
+
+    public Long getPreviousChapter(Long chapterID){
+        Long previousChapter = new Long(0);
+
+        for (Chapters chapter : getChapters()) {
+            if(chapter.getId() == chapterID){
+                return previousChapter;
+            }
+
+            previousChapter = chapter.getId();
+        }
+
+        return previousChapter;
+    }
+
+    public Long getNextChapter(Long chapterID){
+        Boolean flag = false;
+
+        for (Chapters chapter : getChapters()) {
+            if(chapter.getId() == chapterID){
+                flag = true;
+                continue;
+            }
+
+            if(flag){
+                return chapter.getId();
+            }
+        }
+
+        return new Long(0);
     }
 }
