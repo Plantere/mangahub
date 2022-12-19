@@ -3,7 +3,6 @@ package br.com.mangahub.services;
 import br.com.mangahub.interfaces.RoleRepositoryInterface;
 import br.com.mangahub.interfaces.RoleUserRepositoryInterface;
 import br.com.mangahub.interfaces.UserRepositoryInterface;
-import br.com.mangahub.models.Roles;
 import br.com.mangahub.models.RolesUsers;
 import br.com.mangahub.models.Users;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -7,6 +7,7 @@ import br.com.mangahub.services.UserService;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -69,9 +71,32 @@ public class UserController {
     }
 
     @PostMapping("/admin/usuario/registrar")
-    public String registerUser(Model model, Users user){
+    public String registerUser(Users user){
         userService.saveUser(user);
         
+        return "redirect:/admin/usuarios";
+    }
+
+    @GetMapping("/admin/usuario/{userID}/atualizar")
+    public String redirectAdminUpdateUser(@PathVariable(required=true, name="userID") UUID userID, Model model, Users user){
+        model.addAttribute("roles", roleRepository.findAll());
+        model.addAttribute("user", userRepository.findOneByIdAndDeletedAtIsNull(userID));
+
+        return "admin/usuario/atualizarUsuario";
+    }
+
+    @PostMapping("/admin/usuario/{userID}/atualizar")
+    public String updateUser(@PathVariable(required=true, name="userID") UUID userID, Users user){
+        user.setId(userID);
+        userService.saveUser(user);
+        
+        return "redirect:/admin/usuarios";
+    }
+
+    @GetMapping("/admin/usuario/{userID}/deletar")
+    public String deleteUser(@PathVariable(required=true, name="userID") UUID userID){
+        userRepository.deleteById(userID);
+
         return "redirect:/admin/usuarios";
     }
 }
