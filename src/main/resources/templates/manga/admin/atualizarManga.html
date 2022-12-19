@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="flex-1 w-96">
-                    <form th:action="@{/manga/atualizar/{id}(id=${manga.id})}" method="POST" th:object="${manga}" enctype="multipart/form-data">
+                    <form th:action="@{/admin/manga/atualizar/{id}(id=${manga.id})}" method="POST" th:object="${manga}" enctype="multipart/form-data">
                         <div class="-mx-3 md:flex mb-6">
                             <div class="md:w-1/2 px-3 mb-6 md:mb-0">
                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="mangaName">Nome</label>

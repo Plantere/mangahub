@@ -18,9 +18,6 @@ public class MangaService {
     private MangaRepositoryInterface mangaRepository;
 
     @Autowired
-    private ChapterPageService chapterPageService;
-
-    @Autowired
     private FavoriteService favoriteService;
 
     @Autowired

@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="flex-1 w-96">
-                    <form class="space-y-4 md:space-y-6" method="POST" th:action="@{/admin/usuario/{userID}/atualizar(userID=${user.id})}" th:object="${user}">
+                    <form class="space-y-4 md:space-y-6" method="POST" th:action="@{/admin/usuario/atualizar/{userID}(userID=${user.id})}" th:object="${user}">
                         <div class="-mx-3 md:flex mb-6">
                             <div class="md:w-1/2 px-3 mb-6 md:mb-0">
                                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome</label>

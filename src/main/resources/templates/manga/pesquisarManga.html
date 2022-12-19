@@ -15,7 +15,7 @@
             <div sec:authorize="isAuthenticated() && hasRole('ROLE_ADMIN')" id="dropdown-manga" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow bg-neutral-900">
                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-show-manga">
                     <li>
-                        <a th:href="@{/manga/registrar}" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-neutral-500 dark:hover:text-white">Adicionar Manga
+                        <a th:href="@{/admin/manga/registrar}" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-neutral-500 dark:hover:text-white">Adicionar Manga
                         </a>
                     </li>
                 </ul>

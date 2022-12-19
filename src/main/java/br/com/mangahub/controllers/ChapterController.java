@@ -157,6 +157,4 @@ public class ChapterController {
         chapterRepository.deleteById(capituloID);
         return "redirect:/manga/"+mangaID;
     }
-
-
 }

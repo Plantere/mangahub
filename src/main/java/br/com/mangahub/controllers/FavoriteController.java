@@ -1,5 +1,4 @@
 package br.com.mangahub.controllers;
-import br.com.mangahub.interfaces.FavoriteRepositoryInterface;
 import br.com.mangahub.interfaces.UserRepositoryInterface;
 import br.com.mangahub.models.Favorites;
 import br.com.mangahub.models.Users;
@@ -11,7 +10,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,15 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class FavoriteController {
     @Autowired
-    private FavoriteRepositoryInterface favoriteRepository;
-
-    @Autowired
     private UserRepositoryInterface userRepository;
 
     @Autowired
     private FavoriteService favoriteService;
 
-    @GetMapping("/favoritos")
+    @GetMapping("/favorito")
     public String getFavorites(@RequestParam(defaultValue = "0") String page, Model model, Principal principal){
         Users user = userRepository.findOneByEmailAndDeletedAtIsNull(principal.getName());
 

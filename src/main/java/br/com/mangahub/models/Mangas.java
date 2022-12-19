@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -153,7 +152,7 @@ public class Mangas implements Serializable{
     }
 
     public Long getPreviousChapter(Long chapterID){
-        Long previousChapter = new Long(0);
+        Long previousChapter = Long.getLong("0");
 
         for (Chapters chapter : getChapters()) {
             if(chapter.getId() == chapterID){
@@ -180,6 +179,6 @@ public class Mangas implements Serializable{
             }
         }
 
-        return new Long(0);
+        return Long.getLong("0");
     }
 }
