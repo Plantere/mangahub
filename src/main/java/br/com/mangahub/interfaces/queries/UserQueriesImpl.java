@@ -31,7 +31,7 @@ public class UserQueriesImpl implements UserQueries {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Users> criteriaQuery = builder.createQuery(Users.class);
 		Root<Users> user = criteriaQuery.from(Users.class);
-		user.fetch("favorites", JoinType.INNER);
+		user.fetch("favorites", JoinType.RIGHT);
         TypedQuery<Users> typedQuery;
 		List<Predicate> predicateList = new ArrayList<>();
 

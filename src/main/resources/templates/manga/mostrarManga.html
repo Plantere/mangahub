@@ -9,7 +9,7 @@
     <section class="pb-12">
         <div class="flex place-content-center">
             <div class="pt-12" id="dropdown-show-manga" data-dropdown-toggle="dropdown-manga">
-                <h5 class="mb-2 text-3xl font-bold  text-gray-900 yellow-color ">Mangás</h5>
+                <h5 th:classappend="${mangas.getTotalElements() == 0 ? 'text-4xl' : 'text-3xl'}" class="mb-2 font-bold tracking-tight text-gray-900 yellow-color " th:text="${mangas.getTotalElements() == 0 ? 'Nenhum item encontrado...' : 'Mangás'}">Mangás</h5>
                 <hr class="rounded yellow-border">
             </div>
             <div sec:authorize="isAuthenticated() && hasRole('ROLE_ADMIN')" id="dropdown-manga" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow bg-neutral-900">
