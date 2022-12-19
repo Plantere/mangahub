@@ -17,25 +17,21 @@
                                 Atualizações</a>
                         </li>
                         <li>
-                            <a th:classappend="${current == 'category' ? 'yellow-color' : 'text-white'}" href="#" class="block py-2 pr-4 pl-3 rounded md:bg-transparent hover:text-gray-500 md:p-0 dark:text-white">Categorias</a>
-                        </li>
-                        <li>
                             <a th:classappend="${current == 'mangas' ? 'yellow-color' : 'text-white'}" th:href="@{/manga}" class="block py-2 pr-4 pl-3 rounded md:bg-transparent hover:text-gray-500 md:p-0 dark:text-white">Mangás</a>
                         </li>
-                        <li>
-                            <a th:classappend="${current == 'search' ? 'yellow-color' : 'text-white'}" href="#" class="block py-2 pr-4 pl-3 rounded md:bg-transparent hover:text-gray-500 md:p-0 dark:text-white">Pesquisar</a>
-                        </li>
-
-
                     </ul>
-
                 </div>
                 <div>
-                    <ul class="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 dark:bg-black">
+                    <ul class="flex flex-col mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 dark:bg-black">
+                        <li>
+                            <form th:action="@{/manga/pesquisar}" method="get">
+                                <input type="text" id="nameDescription" name="nameDescription" class="pr-8 text-white bg-neutral-50 border border-black sm:text-sm rounded-l-lg p-2.5 bg-neutral-700 dark:placeholder-gray-400">
+                                <button type="submit" class="text-white bg-primary-700 hover:bg-primary-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-r-lg text-sm px-5 py-2.5 text-center dark:bg-primary-700">Pesquisar</button>
+                            </form>
+                        </li>
                         <li sec:authorize="!isAuthenticated()">
                             <a th:href="@{/logar}" class="block py-2 pr-4 pl-3 rounded md:bg-transparent hover:text-gray-500 md:p-0 dark:text-white">Logar</a>
                         </li>
-
                         <li sec:authorize="isAuthenticated()">
                             <button id="dropdownDefault" data-dropdown-toggle="dropdown" class="text-white focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center bg-primary-700 dark:hover:bg-primary-600" type="button">
                                 <p th:text="${#authentication.getPrincipal().getUsername()}"></p> <svg class=" ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

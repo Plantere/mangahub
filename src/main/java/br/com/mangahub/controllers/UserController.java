@@ -2,6 +2,7 @@ package br.com.mangahub.controllers;
 import br.com.mangahub.interfaces.RoleRepositoryInterface;
 import br.com.mangahub.interfaces.UserRepositoryInterface;
 import br.com.mangahub.models.Users;
+import br.com.mangahub.models.filters.UsersFilter;
 import br.com.mangahub.services.UserService;
 
 import java.security.Principal;
@@ -11,8 +12,14 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,11 +53,11 @@ public class UserController {
     }
 
     @GetMapping("/admin/usuarios")
-    public String getAllUsers(@RequestParam() Optional<Integer> page, Model model){
-        int currentPage = page.orElse(1) - 1;
+    public String getAllUsers(UsersFilter filtro, Model model, @PageableDefault(size = 15) @SortDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable, HttpServletRequest request){
         
-        Page<Users> usersPage = userService.findAllByDeletedAtIsNull(currentPage);
-        model.addAttribute("users", usersPage);
+		Page<Users> usersPage = userRepository.pesquisar(filtro, pageable);
+
+		model.addAttribute("users", usersPage);
         
         int totalPages = usersPage.getTotalPages();
         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)

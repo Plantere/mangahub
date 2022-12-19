@@ -1,5 +1,6 @@
 package br.com.mangahub.interfaces;
 
+import br.com.mangahub.interfaces.queries.MangaQueries;
 import br.com.mangahub.models.Mangas;
 
 import java.util.Optional;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Pageable;
 @Repository
-public interface MangaRepositoryInterface extends PagingAndSortingRepository<Mangas, Long> {
+public interface MangaRepositoryInterface extends PagingAndSortingRepository<Mangas, Long>, MangaQueries {
     @Override
     @Transactional(readOnly = true)
     @Query("select e from #{#entityName} e where e.deletedAt is null and e.id = ?1")

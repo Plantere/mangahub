@@ -3,22 +3,22 @@ import br.com.mangahub.interfaces.MangaRepositoryInterface;
 import br.com.mangahub.interfaces.UserRepositoryInterface;
 import br.com.mangahub.models.Mangas;
 import br.com.mangahub.models.Users;
+import br.com.mangahub.models.filters.MangasFilter;
 import br.com.mangahub.services.MangaService;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
-import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.data.domain.Sort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -74,6 +74,23 @@ public class MangaController {
         model.addAttribute("manga", manga);
     
         return "manga/admin/registrarManga";
+    }
+
+    @GetMapping("/manga/pesquisar")
+    public String searchMangas(MangasFilter filtro, Model model, @PageableDefault(size = 12) @SortDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable, HttpServletRequest request){
+        
+		Page<Mangas> mangasPage = mangaRepository.pesquisar(filtro, pageable);
+
+		model.addAttribute("mangas", mangasPage);
+        
+        int totalPages = mangasPage.getTotalPages();
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                                            .boxed()
+                                            .collect(Collectors.toList());
+        
+        model.addAttribute("pageNumbers", pageNumbers);
+
+        return "manga/pesquisarManga";
     }
 
     @GetMapping("/manga/atualizar/{mangaID}") // Atualizar Manga

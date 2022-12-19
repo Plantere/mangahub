@@ -1,5 +1,6 @@
 package br.com.mangahub.interfaces;
 
+import br.com.mangahub.interfaces.queries.UserQueries;
 import br.com.mangahub.models.Users;
 
 import org.springframework.data.domain.Page;
@@ -12,7 +13,7 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
-public interface UserRepositoryInterface extends JpaRepository<Users, UUID> {
+public interface UserRepositoryInterface extends JpaRepository<Users, UUID>, UserQueries {
     Users findOneByEmailAndDeletedAtIsNull(String email);
     Users findOneByIdAndDeletedAtIsNull(UUID id);
 
