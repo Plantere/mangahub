@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -37,7 +38,7 @@ public class Users implements Serializable {
     private Long status = Long.valueOf(1);
 
     @Column(name = "role")
-    private Long role = Long.valueOf(1);
+    private Long role = null;
 
     @Column(name = "password")
     private String password;
@@ -125,6 +126,12 @@ public class Users implements Serializable {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public String obterDataDeCriacao(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        return getCreatedAt().format(formatter);
+
     }
 
     public LocalDateTime getUpdatedAt() {

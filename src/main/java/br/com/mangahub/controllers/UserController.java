@@ -1,20 +1,30 @@
 package br.com.mangahub.controllers;
+import br.com.mangahub.interfaces.RoleRepositoryInterface;
 import br.com.mangahub.interfaces.UserRepositoryInterface;
 import br.com.mangahub.models.Users;
 import br.com.mangahub.services.UserService;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
     @Autowired
     private UserRepositoryInterface userRepository;
+
+    @Autowired
+    private RoleRepositoryInterface roleRepository;
 
 
     @Autowired
@@ -31,5 +41,37 @@ public class UserController {
     public String updateProfile(Principal principal, Users user){
         userService.updateUser(principal.getName(), user);
         return "redirect:/usuario/editar/perfil";
+    }
+
+    @GetMapping("/admin/usuarios")
+    public String getAllUsers(@RequestParam() Optional<Integer> page, Model model){
+        int currentPage = page.orElse(1) - 1;
+        
+        Page<Users> usersPage = userService.findAllByDeletedAtIsNull(currentPage);
+        model.addAttribute("users", usersPage);
+        
+        int totalPages = usersPage.getTotalPages();
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                                            .boxed()
+                                            .collect(Collectors.toList());
+        
+        model.addAttribute("pageNumbers", pageNumbers);
+
+        return "admin/mostrarUsuarios";
+    }
+
+    @GetMapping("/admin/usuario/registrar")
+    public String redirectAdminRegisterUser(Model model, Users user){
+        model.addAttribute("roles", roleRepository.findAll());
+        model.addAttribute("user", user);
+
+        return "admin/usuario/registrarUsuario";
+    }
+
+    @PostMapping("/admin/usuario/registrar")
+    public String registerUser(Model model, Users user){
+        userService.saveUser(user);
+        
+        return "redirect:/admin/usuarios";
     }
 }

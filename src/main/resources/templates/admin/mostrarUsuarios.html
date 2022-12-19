@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:include="~{/fragments/tailwind :: common_header(title=${'MangaHub | Listagem Usuarios'}) }">
+</head>
+
+<body class="bg-black/95 h-full">
+    <div th:replace="~{/fragments/navbar :: common_header(current=${''})}"></div>
+    <section class="shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
+        <div class="rounded-lg shadow md:mt-0 bg-neutral-900 border-black pr-12 pb-12 pt-12 pl-12">
+            <div class="flex place-content-between">
+                <div class="pb-6">
+                    <h5 class="mb-2 text-3xl font-bold tracking-tight text-gray-900 yellow-color ">Listagem de Usuarios</h5>
+                    <hr class="rounded yellow-border">
+                </div>
+
+                <div>
+                    <!-- <a th:href="@{/admin/usuario/pesquisar}" class="px-3 py-2 hover:bg-neutral-700 bg-primary-700 text-white rounded-full !px-6">Pesquisar</a> -->
+                    <a th:href="@{/admin/usuario/registrar}" class="px-3 py-2 hover:bg-neutral-700 bg-primary-700 text-white rounded-full !px-6">Criar Usuario</a>
+                </div>
+            </div>
+            <div class="overflow-x-auto relative">
+                <table class="w-full text-sm text-center text-white">
+                    <thead class="text-white bg-primary-700">
+                        <tr>
+                            <th scope="col" class="py-3 px-6">
+                                Nome do Usuario
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                E-mail
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                Data de Criação
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                Total de Favoritos
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="dark:bg-neutral-800 dark:border-gray-700" th:each="user : ${users}">
+                            <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white" th:text="${user.name}">
+                            </th>
+                            <td class="py-4 px-6" th:text="${user.email}">
+                            </td>
+                            <td class="py-4 px-6" th:text="${user.obterDataDeCriacao()}">
+                            </td>
+                            <td class="py-4 px-6" th:text="${user.favorites.size()}">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <nav class="flex place-content-center pt-12">
+                <ul class="inline-flex items-center -space-x-px" th:if="${users.totalPages > 0}">
+                    <li>
+                        <a th:href="@{/admin/usuarios(page=${users.number})}" class="px-3 py-2 rounded-l-lg bg-neutral-900 text-white dark:hover:bg-primary-600">Anterior</a>
+                    </li>
+
+                    <li th:each="pageNumber : ${pageNumbers}">
+                        <a th:text=${pageNumber} th:href="@{/admin/usuarios(page=${pageNumber})}" th:class="${pageNumber==users.number + 1 ? 'px-3 py-2 bg-neutral-900 dark:bg-primary-600 text-white' : 'px-3 py-2 bg-neutral-900 dark:border-gray-700 dark:hover:bg-primary-600 text-white'}">1</a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/admin/usuarios(page=${users.number+2})}" class="px-3 py-2 rounded-r-lg bg-neutral-900 text-white dark:hover:bg-primary-600">Proxima</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </section>
+</body>
+
+</html>

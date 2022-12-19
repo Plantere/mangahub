@@ -1,4 +1,5 @@
 CREATE TABLE ratings (
+   id serial PRIMARY KEY,
    user_id uuid NOT NULL,
    manga_id serial NOT NULL,
    comment text,
