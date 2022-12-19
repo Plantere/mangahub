@@ -3,6 +3,7 @@ package br.com.mangahub.models;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 
@@ -55,6 +56,7 @@ public class Mangas implements Serializable{
 
     @OneToMany(mappedBy= "manga", fetch=FetchType.EAGER)
     @OrderBy("chapterNumber")
+    @Where(clause="deleted_at is null")
     private Collection<Chapters> chapters;
 
     public Long getId() {

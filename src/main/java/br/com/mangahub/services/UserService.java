@@ -19,4 +19,17 @@ public class UserService {
 
         return true;
     }
+
+    public boolean updateUser(String userEmail, Users user){
+        Users findedUser = userRepository.findOneByEmailAndDeletedAtIsNull(userEmail);
+        user.setId(findedUser.getId());
+        
+        String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
+        user.setPassword(hashedPassword);
+        
+        userRepository.save(user);
+
+        return true;
+        
+    }
 }

@@ -152,4 +152,11 @@ public class ChapterController {
         return "redirect:/manga/"+mangaID;
     }
 
+    @GetMapping("/manga/{mangaID}/capitulo/{capituloID}/deletar") // Atualizar capitulo
+    public String deletarChapter(@PathVariable(required=true, name="mangaID") Long mangaID, @PathVariable(required=true, name="capituloID") Long capituloID){
+        chapterRepository.deleteById(capituloID);
+        return "redirect:/manga/"+mangaID;
+    }
+
+
 }

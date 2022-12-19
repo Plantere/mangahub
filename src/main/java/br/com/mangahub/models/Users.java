@@ -46,7 +46,7 @@ public class Users implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
     private LocalDateTime deletedAt;
 
-    @Column(name="created_at")
+    @Column(name="created_at", updatable = false)
     @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
     private LocalDateTime createdAt;
