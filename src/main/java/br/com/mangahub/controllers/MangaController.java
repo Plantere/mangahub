@@ -1,11 +1,14 @@
 package br.com.mangahub.controllers;
 import br.com.mangahub.interfaces.MangaRepositoryInterface;
+import br.com.mangahub.interfaces.UserRepositoryInterface;
 import br.com.mangahub.models.Mangas;
+import br.com.mangahub.models.Users;
 import br.com.mangahub.services.MangaService;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,6 +35,9 @@ public class MangaController {
     @Autowired
     private MangaRepositoryInterface mangaRepository;
 
+    @Autowired
+    private UserRepositoryInterface userRepository;
+
     @GetMapping("/manga")
     public String listMangas(@RequestParam() Optional<Integer> page, Model model){
         int currentPage = page.orElse(1) - 1;
@@ -49,8 +55,13 @@ public class MangaController {
     }
     
     @GetMapping("/manga/{mangaID}")
-    public String getMangaById(@PathVariable(required=true, name="mangaID") Long mangaID, Model model){
+    public String getMangaById(Principal principal, @PathVariable(required=true, name="mangaID") Long mangaID, Model model){
         Mangas manga = mangaRepository.findOneByIdAndDeletedAtIsNull(mangaID);
+        
+        if(principal != null){
+            Users user = userRepository.findOneByEmailAndDeletedAtIsNull(principal.getName());
+            model.addAttribute("user", user);
+        }
 
         model.addAttribute("manga", manga);
 

@@ -101,7 +101,7 @@ public class ChapterController {
         return "redirect:/";
     }
 
-    @PostMapping("/capitulo/{capituloID}/pagina/{paginaNumero}/deletar") // Deletar Pagina
+    @GetMapping("/capitulo/{capituloID}/pagina/{paginaNumero}/deletar") // Deletar Pagina
     public String deleteChapterPage(@PathVariable(required=true, name="capituloID") Long capituloID, @PathVariable(required=true, name="paginaNumero") int paginaNumero){
         if(chapterPageRepository.findByChapterIdAndPage(capituloID, paginaNumero).isPresent() == false){
             return "redirect:/";

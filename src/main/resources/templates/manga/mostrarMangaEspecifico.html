@@ -4,7 +4,7 @@
 <head th:include="~{/fragments/tailwind :: common_header(title=${'MangaHub | '}+${manga.mangaName})}"></head>
 
 <body class="bg-black/95 h-full">
-    <div th:replace="~{/fragments/navbar :: navbar}" />
+    <div th:replace="~{/fragments/navbar :: common_header(current=${'mangas'})}" />
 
     <section class="shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
         <div class="rounded-lg bg-neutral-900 border-black pr-12 pb-12 pt-12">
@@ -23,14 +23,12 @@
                 </div>
             </div>
 
-            <div class="flex justify-end pt-12">
+            <div class="flex justify-end pt-12" sec:authorize="isAuthenticated()">
                 <div class="pr-2">
-                    <a class="px-3 py-2 dark:hover:bg-neutral-700 bg-primary-600 text-white rounded-full !px-6">
-                        Adicionar aos favoritos
-                    </a>
+                    <a th:classappend="${user.isFavorited(manga.id) ? 'hover:bg-red-700' : 'hover:bg-neutral-700'}" class="px-3 py-2 bg-primary-600 text-white rounded-full !px-6" th:href="@{/favorito/{type}/{mangaID}(mangaID=${manga.id}, type=${user.isFavorited(manga.id) ? 'remover' : 'adicionar'})}" th:text="${user.isFavorited(manga.id) ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}" />
                 </div>
                 <div>
-                    <a class="px-3 py-2 dark:hover:bg-neutral-700 bg-primary-600 text-white rounded-full !px-6">Marcar como lido</a>
+                    <a class="px-3 py-2 dark:hover:bg-neutral-700 bg-primary-600 text-white rounded-full !px-6" th:href="@{/lidos/adicionar/{mangaID}(mangaID=${manga.id})}">Marcar como lido</a>
                 </div>
             </div>
         </div>

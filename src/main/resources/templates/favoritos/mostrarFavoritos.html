@@ -6,14 +6,39 @@
 </head>
 
 <body class="bg-black/95 h-full">
-    <div th:replace="~{/fragments/navbar :: navbar}"></div>
-    <table>
-        <th:block th:each="favorite : ${favorites}">
-            <tr>
-                <td th:text="${favorite.id}">...</td>
-            </tr>
-        </th:block>
-    </table>
+    <div th:replace="~{/fragments/navbar :: common_header(current=${'favorites'})}"></div>
+    <section class="pb-12">
+        <div class="flex place-content-center">
+            <div class="pl-12 pt-12 pr-12">
+                <h5 th:classappend="${favorites.getTotalElements() == 0 ? 'text-6xl' : 'text-2xl'}" class="mb-2 font-bold tracking-tight text-gray-900 yellow-color " th:text="${favorites.getTotalElements() == 0 ? 'Sem Favoritos' : 'Favoritos'}">Favoritos</h5>
+                <hr class="rounded yellow-border">
+            </div>
+        </div>
+
+        <div class="flex place-content-center">
+            <div class="grid grid-cols-3 gap-12 pl-12 pr-12 pt-8">
+                <div th:each="favorite : ${favorites}">
+                    <div th:replace="~{/fragments/manga/card :: common_header(manga=${favorite.manga})}" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <nav class="flex place-content-center pb-12">
+        <ul class="inline-flex items-center -space-x-px" th:if="${favorites.totalPages > 0}">
+            <li>
+                <a th:href="@{/manga(page=${favorites.number})}" class="px-3 py-2 rounded-l-lg bg-neutral-900 text-white dark:hover:bg-primary-600">Anterior</a>
+            </li>
+
+            <li th:each="pageNumber : ${pageNumbers}">
+                <a th:text=${pageNumber} th:href="@{/manga(page=${pageNumber})}" th:class="${pageNumber==favorites.number + 1 ? 'px-3 py-2 bg-neutral-900 dark:bg-primary-600 text-white' : 'px-3 py-2 bg-neutral-900 dark:border-gray-700 dark:hover:bg-primary-600 text-white'}">1</a>
+            </li>
+
+            <li>
+                <a th:href="@{/manga(page=${favorites.number+2})}" class="px-3 py-2 rounded-r-lg bg-neutral-900 text-white dark:hover:bg-primary-600">Proxima</a>
+            </li>
+        </ul>
+    </nav>
 </body>
 
 </html>

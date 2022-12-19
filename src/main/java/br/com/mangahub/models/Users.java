@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.UUID;
 
 @Entity
@@ -29,6 +30,9 @@ public class Users implements Serializable {
     @Column(name = "email")
     private String email;
 
+    @OneToMany(mappedBy = "user", fetch=FetchType.EAGER)
+    private Collection<Favorites> favorites;
+    
     @Column(name = "status")
     private Long status = Long.valueOf(1);
 
@@ -125,5 +129,23 @@ public class Users implements Serializable {
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    public Collection<Favorites> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(Collection<Favorites> favorites) {
+        this.favorites = favorites;
+    }
+
+    public Boolean isFavorited(Long mangaID){
+        for (Favorites favorite : getFavorites()) {
+            if(favorite.getDeletedAt() == null && favorite.getManga().getId() == mangaID){
+                return true;
+            }
+        }
+
+        return false;
     }
 }

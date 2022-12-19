@@ -148,9 +148,9 @@ public class Mangas implements Serializable{
         for (Chapters chapter : getChapters()) {
             if(chapter.getId() == chapterID){
                 return previousChapter;
+            }else if(chapter.getDeletedAt() == null){
+                previousChapter = chapter.getId();
             }
-
-            previousChapter = chapter.getId();
         }
 
         return previousChapter;
@@ -165,7 +165,7 @@ public class Mangas implements Serializable{
                 continue;
             }
 
-            if(flag){
+            if(chapter.getDeletedAt() == null && flag){
                 return chapter.getId();
             }
         }

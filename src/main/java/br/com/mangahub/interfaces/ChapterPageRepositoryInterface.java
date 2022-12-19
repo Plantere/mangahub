@@ -1,5 +1,6 @@
 package br.com.mangahub.interfaces;
 
+import br.com.mangahub.models.Chapters;
 import br.com.mangahub.models.ChaptersPages;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,6 +29,9 @@ public interface ChapterPageRepositoryInterface extends JpaRepository<ChaptersPa
 
     @Query("select e from #{#entityName} e where e.chapter.id = ?1 and e.page = ?2 and deletedAt is null")
     Optional<ChaptersPages> findByChapterIdAndPage(Long chapterID, int pageNumber);
+    
+    @Query("select e from #{#entityName} e where e.chapter.id = ?1 and e.deletedAt is null")
+    Optional<ChaptersPages> findByChapterIdAndDeletedAtIsNull(Long chapterID);
 
     @Modifying
     @Transactional

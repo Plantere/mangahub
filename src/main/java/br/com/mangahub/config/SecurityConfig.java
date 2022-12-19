@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .permitAll()
                 .and()
             .logout()
-                .permitAll();
+            .logoutUrl("/deslogar");
 
         return http.build();
     }
@@ -44,7 +44,7 @@ public class SecurityConfig {
                                          + "where email = ? and users.deleted_at is null");
          
         manager.setAuthoritiesByUsernameQuery(
-                 "SELECT users.email , roles.name FROM users where users.email = ? and users.deleted_at is null"
+                 "SELECT users.email, roles.name FROM (SELECT users.email , users.id FROM users WHERE email = ? and deleted_at is null) as users"
                + " INNER JOIN roles_users ON user_id = users.id "
                + " INNER JOIN roles ON role_id = roles.id;");
 

@@ -14,6 +14,7 @@ public class Favorites implements Serializable {
     private static final long serialVersionUID = 3;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
 
