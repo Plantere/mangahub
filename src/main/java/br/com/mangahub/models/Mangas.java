@@ -10,6 +10,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "mangas")
@@ -139,7 +142,12 @@ public class Mangas implements Serializable{
     }
 
     public Integer getTotalChapters(){
-        return getChapters().size();        
+        Set<Long> totalChapters = new HashSet<>();
+        for (Chapters chapter : getChapters()) {
+            totalChapters.add(chapter.getId());
+        }
+
+        return totalChapters.size();
     }
 
     public Long getPreviousChapter(Long chapterID){
