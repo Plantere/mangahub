@@ -5,6 +5,7 @@ import br.com.mangahub.models.Mangas;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -20,4 +21,9 @@ public interface MangaRepositoryInterface extends PagingAndSortingRepository<Man
     Page<Mangas> findAllByDeletedAtIsNull(Pageable pageable);
 
     Mangas findOneByIdAndDeletedAtIsNull(Long id);
+
+    @Query("update #{#entityName} e set e.deletedAt = now() where e.id = ?1")
+    @Transactional
+    @Modifying
+    void deleteById(Long id);
 }

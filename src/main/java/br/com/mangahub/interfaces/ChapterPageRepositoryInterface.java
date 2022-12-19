@@ -42,4 +42,9 @@ public interface ChapterPageRepositoryInterface extends JpaRepository<ChaptersPa
     @Transactional
     @Query("update #{#entityName} e set e.deletedAt = now() where e.chapter.id = ?1 and e.deletedAt is null")
     void deleteByChapterId(Long chapterID);
+
+    @Modifying
+    @Transactional
+    @Query("update #{#entityName} e set e.deletedAt = now() where e.chapter.manga.id = ?1 and e.deletedAt is null")
+    void deleteByMangaId(Long mangaID);
 }

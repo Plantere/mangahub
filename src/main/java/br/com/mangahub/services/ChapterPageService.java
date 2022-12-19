@@ -44,4 +44,10 @@ public class ChapterPageService {
 
         return imagePageByte;
     }
+
+    public Boolean deleteByMangaId(Long mangaID){
+        chapterPageRepository.deleteByMangaId(mangaID);
+        
+        return true;
+    }
 }

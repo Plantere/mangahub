@@ -16,6 +16,17 @@ import br.com.mangahub.models.Mangas;
 public class MangaService {
     @Autowired
     private MangaRepositoryInterface mangaRepository;
+
+    @Autowired
+    private ChapterPageService chapterPageService;
+
+    @Autowired
+    private FavoriteService favoriteService;
+
+    @Autowired
+    private ChapterService chapterService;
+
+
     public Page<Mangas> findAllByDeletedAtIsNull(Integer page){
         return mangaRepository.findAllByDeletedAtIsNull(PageRequest.of(page, 12));
 
@@ -56,5 +67,12 @@ public class MangaService {
         }
 
         return imageByte;
+    }
+
+    public boolean deleteManga(Long mangaID){
+        mangaRepository.deleteById(mangaID);
+        favoriteService.deleteByMangaId(mangaID);
+        chapterService.deleteByMangaId(mangaID);
+        return true;
     }
 }

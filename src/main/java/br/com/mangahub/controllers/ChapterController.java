@@ -135,7 +135,7 @@ public class ChapterController {
         chapter.setManga(manga.get());
         chapterService.saveChapter(chapter);
 
-        return "redirect:/";
+        return "redirect:/manga/"+mangaID;
     }
 
     @PostMapping("/manga/{mangaID}/capitulo/{capituloID}/atualizar") // Atualizar capitulo
@@ -149,7 +149,7 @@ public class ChapterController {
         chapter.setManga(manga.get());
         chapterService.updateChapter(capituloID, chapter);
 
-        return "redirect:/";
+        return "redirect:/manga/"+mangaID;
     }
 
 }

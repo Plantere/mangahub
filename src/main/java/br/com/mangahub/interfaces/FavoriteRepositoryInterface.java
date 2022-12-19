@@ -21,4 +21,9 @@ public interface FavoriteRepositoryInterface extends PagingAndSortingRepository<
     @Transactional
     @Query("update #{#entityName} e set e.deletedAt = now() where e.manga = ?1 and e.user = ?2 and e.deletedAt is null")
     void deleteByMangaAndUser(Mangas manga, Users user);
+
+    @Modifying
+    @Transactional
+    @Query("update #{#entityName} e set e.deletedAt = now() where e.manga.id = ?1 and e.deletedAt is null")
+    void deleteByMangaId(Long mangaID);
 }

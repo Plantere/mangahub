@@ -98,6 +98,12 @@ public class MangaController {
     @PostMapping("/manga/atualizar/{mangaID}") // Atualizar Manga
     public String updateManga(@RequestParam("imageCover") MultipartFile imageCover, @PathVariable(required=true, name="mangaID") Long mangaID, Mangas manga){
         mangaService.updateManga(mangaID, manga, imageCover);
+        return "redirect:/manga/"+mangaID;
+    }
+
+    @GetMapping("/manga/deletar/{mangaID}") // Deletar Manga
+    public String deleteManga(@PathVariable(required=true, name="mangaID") Long mangaID){
+        mangaService.deleteManga(mangaID);
         return "redirect:/";
     }
 }

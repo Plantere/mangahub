@@ -8,6 +8,30 @@
 
     <section class="shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
         <div class="rounded-lg bg-neutral-900 border-black pr-12 pb-12 pt-12">
+            <div class="flex justify-end" sec:authorize="isAuthenticated()">
+                <ul class="flex flex-col">
+                    <li sec:authorize="isAuthenticated() && hasRole('ROLE_ADMIN')">
+                        <button id="dropdownManga" data-dropdown-toggle="dropdown-manga" class="text-white font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center bg-primary-600 hover:bg-neutral-700" type="button">
+                            Configurações do Manga <svg class=" ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div id="dropdown-manga" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow bg-neutral-900">
+                            <ul class="py-1 text-sm text-gray-400 dark:text-gray-200" aria-labelledby="dropdownManga">
+                                <li>
+                                    <a th:href="@{/manga/atualizar/{mangaID}(mangaID=${manga.id})}" class="block py-2 px-4 dark:hover:bg-neutral-500 dark:hover:text-white">Editar Manga</a>
+                                </li>
+                                <li>
+                                    <a th:href="@{/manga/deletar/{mangaID}(mangaID=${manga.id})}" onclick="return confirm('Tem certeza que deseja deletar o Manga?');" class="block py-2 px-4 dark:hover:bg-neutral-500 dark:hover:text-white">Deletar Manga</a>
+                                </li>
+                                <li>
+                                    <a th:href="@{/manga/{mangaID}/capitulo/registrar(mangaID=${manga.id})}" class="block py-2 px-4 dark:hover:bg-neutral-500 dark:hover:text-white">Adicionar Capitulo</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
             <div class="flex items-center">
                 <div class="pl-12 pr-12">
                     <img class="rounded-lg" style="min-width: 240px; max-width: 240px; min-height: 365px; max-height: 365px;" th:src="@{data:image/png;base64,{byte}(byte=${manga.getImageCoverInBase64()})}">
@@ -27,9 +51,9 @@
                 <div class="pr-2">
                     <a th:classappend="${user.isFavorited(manga.id) ? 'hover:bg-red-700' : 'hover:bg-neutral-700'}" class="px-3 py-2 bg-primary-600 text-white rounded-full !px-6" th:href="@{/favorito/{type}/{mangaID}(mangaID=${manga.id}, type=${user.isFavorited(manga.id) ? 'remover' : 'adicionar'})}" th:text="${user.isFavorited(manga.id) ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}" />
                 </div>
-                <div>
+                <!-- <div>
                     <a class="px-3 py-2 dark:hover:bg-neutral-700 bg-primary-600 text-white rounded-full !px-6" th:href="@{/lidos/adicionar/{mangaID}(mangaID=${manga.id})}">Marcar como lido</a>
-                </div>
+                </div> -->
             </div>
         </div>
 

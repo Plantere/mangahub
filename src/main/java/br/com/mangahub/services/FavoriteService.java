@@ -46,4 +46,10 @@ public class FavoriteService {
 
         return true;
     }
+
+    public Boolean deleteByMangaId(Long mangaID){
+        favoriteRepository.deleteByMangaId(mangaID);
+        
+        return true;
+    }
 }

@@ -33,4 +33,8 @@ public class ChapterService {
         return true;
     }
 
+    public Boolean deleteByMangaId(Long mangaID){
+        chapterRepository.deleteByMangaId(mangaID);
+        return true;
+    }
 }
