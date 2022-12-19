@@ -1,6 +1,8 @@
 package br.com.mangahub.models;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -21,8 +23,9 @@ public class ChaptersReads implements Serializable {
     @JoinColumn(name="user_id")
     private Users user;
 
-    @Column(name = "chapter_id")
-    private Long chapterId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="chapter_id")
+    private Chapters chapter;
 
     @Column(name = "page_stop")
     private int pageStop;
@@ -57,20 +60,20 @@ public class ChaptersReads implements Serializable {
         this.user = user;
     }
 
-    public Long getChapterId() {
-        return chapterId;
-    }
-
-    public void setChapterId(Long chapterId) {
-        this.chapterId = chapterId;
-    }
-
     public int getPageStop() {
         return pageStop;
     }
 
     public void setPageStop(int pageStop) {
         this.pageStop = pageStop;
+    }
+
+    public Chapters getChapter() {
+        return chapter;
+    }
+
+    public void setChapter(Chapters chapter) {
+        this.chapter = chapter;
     }
 
     public LocalDateTime getDeletedAt() {
