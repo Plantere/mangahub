@@ -2,33 +2,65 @@ package br.com.mangahub.models;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "mangas")
 public class Mangas implements Serializable{
     private static final long serialVersionUID = 4;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
+    @NotBlank(message = "O nome do manga é obrigatorio")
     @Column(name = "name")
     private String mangaName;
 
+    @NotBlank(message = "O descrição é obrigatoria")
     @Column(name = "description")
     private String mangaDescription;
 
-    @Column(name = "path")
-    private String mangaPath;
-
+    @NotNull(message = "A faixa etaria é obrigatoria")
     @Column(name = "age_group")
-    private int ageGroup;
+    private Long ageGroup;
+
+    @Column(name = "cover")
+    private String mangaCover;
+    
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+    
+    @NotNull(message = "A data de lançamento é obrigatoria")
+    @Column(name = "released_at")
+    @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
+    private LocalDateTime releasedAt;
+
+    @Column(name = "created_at", updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy= "manga", fetch=FetchType.EAGER)
+    @OrderBy("chapterNumber")
+    @Where(clause="deleted_at is null")
+    private Collection<Chapters> chapters;
 
     public Long getId() {
         return id;
@@ -54,20 +86,20 @@ public class Mangas implements Serializable{
         this.mangaDescription = mangaDescription;
     }
 
-    public String getMangaPath() {
-        return mangaPath;
-    }
-
-    public void setMangaPath(String mangaPath) {
-        this.mangaPath = mangaPath;
-    }
-
-    public int getAgeGroup() {
+    public Long getAgeGroup() {
         return ageGroup;
     }
 
-    public void setAgeGroup(int ageGroup) {
+    public void setAgeGroup(Long ageGroup) {
         this.ageGroup = ageGroup;
+    }
+
+    public String getMangaCover() {
+        return mangaCover;
+    }
+
+    public void setMangaCover(String mangaCover) {
+        this.mangaCover = mangaCover;
     }
 
     public LocalDateTime getDeletedAt() {
@@ -76,6 +108,14 @@ public class Mangas implements Serializable{
 
     public void setDeletedAt(LocalDateTime deletedAt) {
         this.deletedAt = deletedAt;
+    }
+
+    public LocalDateTime getReleasedAt() {
+        return releasedAt;
+    }
+
+    public void setReleasedAt(LocalDateTime releasedAt) {
+        this.releasedAt = releasedAt;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -94,14 +134,51 @@ public class Mangas implements Serializable{
         this.updatedAt = updatedAt;
     }
 
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
+    public Collection<Chapters> getChapters() {
+        return chapters;
+    }
 
-    @Column(name = "created_at")
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+    public void setChapters(Collection<Chapters> chapters) {
+        this.chapters = chapters;
+    }
 
-    @Column(name = "updated_at")
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    public Integer getTotalChapters(){
+        Set<Long> totalChapters = new HashSet<>();
+        for (Chapters chapter : getChapters()) {
+            totalChapters.add(chapter.getId());
+        }
+
+        return totalChapters.size();
+    }
+
+    public Long getPreviousChapter(Long chapterID){
+        Long previousChapter = Long.getLong("0");
+
+        for (Chapters chapter : getChapters()) {
+            if(chapter.getId() == chapterID){
+                return previousChapter;
+            }else if(chapter.getDeletedAt() == null){
+                previousChapter = chapter.getId();
+            }
+        }
+
+        return previousChapter;
+    }
+
+    public Long getNextChapter(Long chapterID){
+        Boolean flag = false;
+
+        for (Chapters chapter : getChapters()) {
+            if(chapter.getId() == chapterID){
+                flag = true;
+                continue;
+            }
+
+            if(chapter.getDeletedAt() == null && flag){
+                return chapter.getId();
+            }
+        }
+
+        return Long.getLong("0");
+    }
 }

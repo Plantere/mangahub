@@ -1,0 +1,13 @@
+<a th:href="@{/manga/{mangaID}(mangaID=${manga.id})}" class="flex flex-col items-center rounded-lg md:flex-row border-card" th:fragment="common_header(manga)">
+    <img class="object-cover w-full h-96 p-1 rounded-t-lg md:h-auto md:rounded-none md:rounded-l-lg" style="min-width: 207px; max-width: 207px; min-height: 300px; max-height: 300px;" th:src="${manga.getMangaCover()}">
+    <div class="flex flex-col justify-between p-4 mr-12 leading-normal">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" th:text="${manga.mangaName}">Solo Leveling</h5>
+        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400" th:text="|${manga.getTotalChapters()} Capitulos|">50 Capitulos</p>
+        <p class="mb-3 font-normal py-2 px-3 inline-flex items-center yellow-button">
+            Ler Manga
+            <svg aria-hidden="true" class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+        </p>
+    </div>
+</a>

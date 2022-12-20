@@ -2,6 +2,7 @@ package br.com.mangahub.models;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,18 +21,26 @@ public class ChaptersReads implements Serializable {
     @JoinColumn(name="user_id")
     private Users user;
 
-    @Column(name = "chapter_id")
-    private Long chapterId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="chapter_id")
+    private Chapters chapter;
 
     @Column(name = "page_stop")
-    private int pageStop;
+    private Long pageStop;
 
     @Column(name = "deleted_at")
+    @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
     private LocalDateTime deletedAt;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     @CreationTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
+    private LocalDateTime updatedAt;
 
     public Long getId() {
         return id;
@@ -49,20 +58,20 @@ public class ChaptersReads implements Serializable {
         this.user = user;
     }
 
-    public Long getChapterId() {
-        return chapterId;
-    }
-
-    public void setChapterId(Long chapterId) {
-        this.chapterId = chapterId;
-    }
-
-    public int getPageStop() {
+    public Long getPageStop() {
         return pageStop;
     }
 
-    public void setPageStop(int pageStop) {
+    public void setPageStop(Long pageStop) {
         this.pageStop = pageStop;
+    }
+
+    public Chapters getChapter() {
+        return chapter;
+    }
+
+    public void setChapter(Chapters chapter) {
+        this.chapter = chapter;
     }
 
     public LocalDateTime getDeletedAt() {
@@ -88,8 +97,4 @@ public class ChaptersReads implements Serializable {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-
-    @Column(name = "updated_at")
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 }

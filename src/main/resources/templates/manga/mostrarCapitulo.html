@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" class="h-full">
+
+<head th:include="~{/fragments/tailwind :: common_header(title=${'MangaHub | '} + ${chapter.getManga().mangaName} + ${' - Capitulo '} + ${chapter.chapterNumber})}"></head>
+
+<head>
+    <style>
+        #btn-back-to-top {
+            position: fixed;
+            display: none;
+        }
+    </style>
+
+</head>
+
+<body class="bg-black/95 h-full">
+    <div th:replace="~{/fragments/navbar :: common_header(current=${''})}"></div>
+    <section class="shadow-md rounded px-8 pt-6 pb-8 mb-4 flex justify-center my-2">
+
+        <div class="rounded-lg bg-neutral-900 border-black pt-5 pb-12">
+            <div>
+                <a th:href="@{/manga/{mangaID}(mangaID=${chapter.getManga().id})}">
+                    <h1 class="pl-10 pb-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white" th:text="${chapter.getManga().mangaName} + ${' | Capitulo '} + ${chapter.chapterNumber}"></h1>
+                </a>
+                <hr>
+            </div>
+
+            <div class="pl-12 pr-12 pt-5" th:each="chapterPage : ${chapter.getChaptersPages()}">
+                <img class="rounded-lg" th:src="${chapterPage.getImagePage()}">
+            </div>
+
+
+            <div class="flex justify-center pt-12">
+                <div class="pr-8">
+                    <a th:if="${chapter.getManga().getPreviousChapter(chapter.id) == 0}" class="py-3 bg-neutral-700 text-white rounded-full !px-6" href="#">
+                        Anterior Capitulo
+                    </a>
+
+                    <a th:unless="${chapter.getManga().getPreviousChapter(chapter.id) == 0}" class="py-3 dark:hover:bg-neutral-700 bg-primary-600 text-white rounded-full !px-6" th:href="@{/manga/{mangaID}/capitulo/{capituloID}(mangaID=${chapter.getManga().id}, capituloID=${chapter.getManga().getPreviousChapter(chapter.id)})}">
+                        Anterior Capitulo
+                    </a>
+                </div>
+                <div>
+                    <a th:if="${chapter.getManga().getNextChapter(chapter.id) == 0}" class="bg-neutral-700 py-3 text-white rounded-full !px-6" href="#">
+                        Proximo Capitulo
+                    </a>
+                    <a th:unless="${chapter.getManga().getNextChapter(chapter.id) == 0}" class="py-3 dark:hover:bg-neutral-700 bg-primary-600 text-white rounded-full !px-6" th:href="@{/manga/{mangaID}/capitulo/{capituloID}(mangaID=${chapter.getManga().id}, capituloID=${chapter.getManga().getNextChapter(chapter.id)})}">
+                        Proximo Capitulo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <button type="button" data-mdb-ripple="true" data-mdb-ripple-color="light" class="inline-block p-3 bg-primary-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg transition duration-150 ease-in-out bottom-5 right-5" id="btn-back-to-top">
+        <svg aria-hidden="true" focusable="false" data-prefix="fas" class="w-4 h-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <path fill="currentColor" d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"></path>
+        </svg>
+    </button>
+    <script>
+        let mybutton = document.getElementById("btn-back-to-top");
+
+        window.onscroll = function () {
+            scrollFunction();
+        };
+
+        function scrollFunction() {
+            if (
+                document.body.scrollTop > 20 ||
+                document.documentElement.scrollTop > 20
+            ) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+        mybutton.addEventListener("click", backToTop);
+
+        function backToTop() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+</body>

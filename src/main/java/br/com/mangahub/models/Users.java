@@ -1,32 +1,81 @@
 package br.com.mangahub.models;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.UUID;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 
 @Entity
 @Table(name = "users")
 public class Users implements Serializable {
-    @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "VARCHAR(255)")
-    private UUID id;
+    private static final long serialVersionUID = 884;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @OneToMany(mappedBy = "user", fetch=FetchType.EAGER)
+    private Collection<Favorites> favorites;
+    
+    @NotBlank(message = "O E-mail é obrigatorio")
+    @Email(message="O e-mail informado não consta num formato valido")
+    @Column(name = "email")
+    private String email;
+
+    @NotBlank(message = "A senha é obrigatoria")
+    @Column(name = "password")
+    private String password;
+
+    @NotBlank(message = "O Nome é obrigatorio")
     @Column(name = "name")
     private String name;
 
-    public UUID getId() {
+    @Column(name = "status")
+    private Long status = Long.valueOf(1);
+
+    @Column(name = "role")
+    private Long role = null;
+
+    @ManyToOne(fetch=FetchType.EAGER)
+	@JoinTable(name = "roles_users", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Roles roles;
+    
+    public Roles getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Roles roles) {
+        this.roles = roles;
+    }
+
+    @Column(name = "deleted_at")
+    @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
+    private LocalDateTime deletedAt;
+
+    @Column(name="created_at", updatable = false)
+    @CreationTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
+    private LocalDateTime updatedAt;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -90,30 +139,31 @@ public class Users implements Serializable {
         return createdAt;
     }
 
+    public String obterDataDeCriacao(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        return getCreatedAt().format(formatter);
+
+    }
+
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    @Column(name = "email")
-    private String email;
+    public Collection<Favorites> getFavorites() {
+        return favorites;
+    }
 
-    @Column(name = "status")
-    private Long status = Long.valueOf(1);
+    public void setFavorites(Collection<Favorites> favorites) {
+        this.favorites = favorites;
+    }
 
-    @Column(name = "role")
-    private Long role = Long.valueOf(1);
+    public Boolean isFavorited(Long mangaID){
+        for (Favorites favorite : getFavorites()) {
+            if(favorite.getDeletedAt() == null && favorite.getManga().getId().equals(mangaID)){
+                return true;
+            }
+        }
 
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
-
-    @Column(name="created_at")
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
+        return false;
+    }
 }

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" class="h-full">
+
+<head th:include="~{/fragments/tailwind :: common_header(title=${'MangaHub - Mangás'})}"></head>
+
+<body class="bg-black/95 h-full">
+    <div th:replace="~{/fragments/navbar :: common_header(current=${'mangas'})}"></div>
+
+    <section class="pb-12">
+        <div class="flex place-content-center">
+            <div class="pt-12" id="dropdown-show-manga" data-dropdown-toggle="dropdown-manga">
+                <h5 th:classappend="${mangas.getTotalElements() == 0 ? 'text-4xl' : 'text-3xl'}" class="mb-2 font-bold tracking-tight text-gray-900 yellow-color " th:text="${mangas.getTotalElements() == 0 ? 'Nenhum item encontrado...' : 'Mangás'}">Mangás</h5>
+                <hr class="rounded yellow-border">
+            </div>
+            <div sec:authorize="isAuthenticated() && hasRole('ROLE_ADMIN')" id="dropdown-manga" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow bg-neutral-900">
+                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-show-manga">
+                    <li>
+                        <a th:href="@{/admin/manga/registrar}" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-neutral-500 dark:hover:text-white">Adicionar Manga
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="flex place-content-center">
+            <div class="grid grid-cols-3 gap-12 pl-12 pr-12 pt-8">
+                <div th:each="manga : ${mangas}">
+                    <div th:replace="~{/fragments/manga/card :: common_header(manga=${manga})}" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <nav class="flex place-content-center pb-12">
+        <ul class="inline-flex items-center -space-x-px" th:if="${mangas.totalPages > 0}">
+            <li>
+                <a th:href="@{/manga(page=${mangas.number})}" class="px-3 py-2 rounded-l-lg bg-neutral-900 text-white dark:hover:bg-primary-600">Anterior</a>
+            </li>
+
+            <li th:each="pageNumber : ${pageNumbers}">
+                <a th:text=${pageNumber} th:href="@{/manga(page=${pageNumber})}" th:class="${pageNumber==mangas.number + 1 ? 'px-3 py-2 bg-neutral-900 dark:bg-primary-600 text-white' : 'px-3 py-2 bg-neutral-900 dark:border-gray-700 dark:hover:bg-primary-600 text-white'}">1</a>
+            </li>
+
+            <li>
+                <a th:href="@{/manga(page=${mangas.number+2})}" class="px-3 py-2 rounded-r-lg bg-neutral-900 text-white dark:hover:bg-primary-600">Proxima</a>
+            </li>
+        </ul>
+    </nav>
+</body>

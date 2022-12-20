@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:include="~{/fragments/tailwind :: common_header(title=${'MangaHub | Atualizar Capitulos'})}"></head>
+
+<body class="bg-black/95 h-full">
+    <div th:replace="~{/fragments/navbar :: common_header(current=${''})}"></div>
+    <section class="shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
+        <div class="rounded-lg shadow md:mt-0 bg-neutral-900 border-black pr-12 pb-12 pt-12 flex items-center">
+            <div class="pl-12 pr-12 pb-12">
+                <h1 class="mb-2 text-6xl font-bold tracking-tight text-gray-900 yellow-color">Atualizar<br>Capitulo</h1>
+            </div>
+
+            <div class="flex-1 w-96">
+                <form th:action="${#request.requestURI}" method="POST" th:object="${chapter}">
+                    <div class="-mx-3 md:flex mb-6">
+                        <div class="md:w-full px-3">
+                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="numeroCapitulo">Titulo do Capitulo</label>
+                            <input type="text" th:field="*{chapterTitle}" class="bg-neutral-50 border border-black text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-neutral-700 dark:border-black-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="A volta dos que não foram">
+                        </div>
+
+                    </div>
+
+                    <div class="-mx-3 md:flex mb-6">
+                        <div class="md:w-1/2 px-3">
+                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="chapterNumber">Numero do Capitulo</label>
+                            <input type="number" th:field="*{chapterNumber}" class="bg-neutral-50 border border-black text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-neutral-700 dark:border-black-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="1">
+                        </div>
+                        <div class="md:w-1/2 px-3">
+                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="imageCover">Data de Lançamento</label>
+                            <input type="datetime" th:field="*{releasedAt}" class="bg-neutral-50 border border-black text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-neutral-700 dark:border-black-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                        </div>
+                    </div>
+
+                    <div class="grid justify-items-center">
+                        <button type="submit" class="text-white  focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg px-8 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Atualizar Capitulo</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

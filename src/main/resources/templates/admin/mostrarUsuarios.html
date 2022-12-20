@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:include="~{/fragments/tailwind :: common_header(title=${'MangaHub | Listagem Usuarios'}) }">
+</head>
+
+<body class="bg-black/95 h-full">
+    <div th:replace="~{/fragments/navbar :: common_header(current=${''})}"></div>
+    <section class="rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
+        <div class="rounded-lg shadow md:mt-0 bg-neutral-900 border-black pr-12 pb-12 pt-12 pl-12">
+            <div class="flex place-content-between">
+                <div class="pb-6">
+                    <h5 class="mb-2 text-3xl font-bold tracking-tight text-gray-900 yellow-color ">Listagem de Usuarios</h5>
+                    <hr class="rounded yellow-border">
+                </div>
+
+                <div class="flex place-content-between">
+                    <div class="pr-5">
+                        <a th:href="@{/admin/usuario/registrar}" class="px-3 py-2 hover:bg-neutral-700 bg-primary-700 text-white rounded-full !px-6">Criar Usuario</a>
+                    </div>
+                    <div class="pr-5">
+                        <a th:href="@{/admin/relatorio/favoritos}" class="px-3 py-2 hover:bg-neutral-700 bg-primary-700 text-white rounded-full !px-6">Exportar</a>
+                    </div>
+                    <div>
+                        <a data-modal-toggle="defaultModal" class="px-3 py-2 hover:bg-neutral-700 bg-primary-700 text-white rounded-full !px-6">Pesquisar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="overflow-x-auto relative">
+                <table class="w-full text-sm text-center text-white">
+                    <thead class="text-white bg-primary-700">
+                        <tr>
+                            <th scope="col" class="py-3 px-6">
+                                Nome do Usuario
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                E-mail
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                Data de Criação
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                Papel
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                Total de Favoritos
+                            </th>
+                            <th scope="col" class="py-3 px-3">
+
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="dark:bg-neutral-800 dark:border-gray-700" th:each="user : ${users}">
+                            <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white" th:text="${user.name}"></th>
+                            <td class="py-4 px-6" th:text="${user.email}"></td>
+                            <td class="py-4 px-6" th:text="${user.obterDataDeCriacao()}"></td>
+                            <td class="py-4 px-6" th:text="${user.getRoles().getName() == 'ROLE_ADMIN' ? 'Administrador' : 'Usuario'}"></td>
+                            <td class="py-4 px-6" th:text="${user.favorites.size()}"></td>
+                            <td class="py-3 px-3">
+                                <div class="flex place-content-end">
+                                    <a th:href="@{/admin/usuario/atualizar/{userID}(userID=${user.id})}" class="pr-5">
+                                        <svg class="w-4 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                    </a>
+
+                                    <a th:href="@{/admin/usuario/deletar/{userID}(userID=${user.id})}" onclick="return confirm('Tem certeza que deseja deletar o Usuario?');" class="pr-5">
+                                        <svg class="w-4 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <nav class="flex place-content-center pt-12">
+                <ul class="inline-flex items-center -space-x-px" th:if="${users.totalPages > 0}">
+                    <li>
+                        <a th:href="@{/admin/usuarios(page=${users.number})}" class="px-3 py-2 rounded-l-lg bg-neutral-900 text-white dark:hover:bg-primary-600">Anterior</a>
+                    </li>
+
+                    <li th:each="pageNumber : ${pageNumbers}">
+                        <a th:text=${pageNumber} th:href="@{/admin/usuarios(page=${pageNumber})}" th:class="${pageNumber==users.number + 1 ? 'px-3 py-2 bg-neutral-900 dark:bg-primary-600 text-white' : 'px-3 py-2 bg-neutral-900 dark:border-gray-700 dark:hover:bg-primary-600 text-white'}">1</a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/admin/usuarios(page=${users.number+2})}" class="px-3 py-2 rounded-r-lg bg-neutral-900 text-white dark:hover:bg-primary-600">Proxima</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+    <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
+        <div class="relative w-full h-full max-w-2xl md:h-auto">
+            <div class="relative rounded-lg shadow bg-neutral-900 ">
+                <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Pesquisa de Usuarios
+                    </h3>
+                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="sr-only">Fechar</span>
+                    </button>
+                </div>
+                <div class="p-6 space-y-6">
+                    <form th:action="@{/admin/usuarios}" method="GET">
+                        <div>
+                            <label for="Nome" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome</label>
+                            <input id="name" name="name" placeholder="" type="text" class="bg-neutral-50 border border-black text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-neutral-700 dark:border-black-600 dark:placeholder-gray-400 dark:text-white">
+                        </div>
+                        <div>
+                            <label for="Email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">E-mail</label>
+                            <input id="email" name="email" placeholder="" type="text" class="bg-neutral-50 border border-black text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-neutral-700 dark:border-black-600 dark:placeholder-gray-400 dark:text-white">
+                        </div>
+                        <div>
+                            <label for="DataCriacaoMaior" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data de Criação maior que</label>
+                            <input id="dataCriacaoMaiorQue" name="dataCriacaoMaiorQue" placeholder="" type="text" class="bg-neutral-50 border border-black text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-neutral-700 dark:border-black-600 dark:placeholder-gray-400 dark:text-white">
+                        </div>
+                        <div>
+                            <div>
+                                <label for="DataCriacaoMenor" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data de Criação menor que</label>
+                                <input id="dataCriacaoMenorQue" name="dataCriacaoMenorQue" placeholder="" type="text" class="bg-neutral-50 border border-black text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-neutral-700 dark:border-black-600 dark:placeholder-gray-400 dark:text-white">
+                            </div>
+                            <div>
+                                <label for="favoritosMaior" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Favoritos maior que</label>
+                                <input id="favoritosMaiorQue" name="favoritosMaiorQue" placeholder="" type="text" class="bg-neutral-50 border border-black text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-neutral-700 dark:border-black-600 dark:placeholder-gray-400 dark:text-white">
+                            </div>
+                            <div>
+                                <label for="favoritoMenorQue" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Favoritos menor que</label>
+                                <input id="favoritoMenorQue" name="favoritoMenorQue" placeholder="" type="text" class="bg-neutral-50 border border-black text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-neutral-700 dark:border-black-600 dark:placeholder-gray-400 dark:text-white">
+                            </div>
+                            <div>
+                                <label for="Papel" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Papel</label>
+                                <select name="role" autocomplete="off" id="role" class="bg-neutral-50 border border-black text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-neutral-700 dark:border-black-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option disabled value="0" selected>Selecione um Papel</option>
+                                    <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex items-center p-6 space-x-2 rounded-b dark:border-gray-600">
+                            <button data-modal-toggle="defaultModal" type="submit" class="text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-primary-700 hover:bg-neutral-500">Pesquisar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>
