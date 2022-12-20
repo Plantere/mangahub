@@ -37,7 +37,6 @@ public class Chapters implements Serializable {
     private Long chapterNumber;
 
     @NotBlank(message = "O titulo é obrigatorio")
-    @Length(min=10, max=400)
     @Column(name = "title")
     private String chapterTitle;
     
