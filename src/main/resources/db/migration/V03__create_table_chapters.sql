@@ -1,6 +1,6 @@
 CREATE TABLE chapters (
    id serial PRIMARY KEY,
-   manga_id serial NOT NULL,
+   manga_id integer NOT NULL,
    number integer NOT NULL,
    title text NULL,
    released_at timestamp NOT NULL,

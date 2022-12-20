@@ -3,10 +3,10 @@ import br.com.mangahub.interfaces.RoleRepositoryInterface;
 import br.com.mangahub.interfaces.UserRepositoryInterface;
 import br.com.mangahub.models.Users;
 import br.com.mangahub.models.filters.UsersFilter;
+import br.com.mangahub.services.RelatorioService;
 import br.com.mangahub.services.UserService;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -19,6 +19,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -64,7 +67,7 @@ public class AdminUserController {
     }
 
     @GetMapping("/admin/usuario/atualizar/{userID}")
-    public String redirectAdminUpdateUser(@PathVariable(required=true, name="userID") UUID userID, Model model, Users user){
+    public String redirectAdminUpdateUser(@PathVariable(required=true, name="userID") Long userID, Model model, Users user){
         model.addAttribute("roles", roleRepository.findAll());
         model.addAttribute("user", userRepository.findOneByIdAndDeletedAtIsNull(userID));
 
@@ -72,7 +75,7 @@ public class AdminUserController {
     }
 
     @GetMapping("/admin/usuario/deletar/{userID}")
-    public String deleteUser(@PathVariable(required=true, name="userID") UUID userID){
+    public String deleteUser(@PathVariable(required=true, name="userID") Long userID){
         userRepository.deleteById(userID);
 
         return "redirect:/admin/usuarios";
@@ -92,10 +95,24 @@ public class AdminUserController {
     }
 
     @PostMapping("/admin/usuario/atualizar/{userID}")
-    public String updateUser(@PathVariable(required=true, name="userID") UUID userID, Users user){
+    public String updateUser(@PathVariable(required=true, name="userID") Long userID, Users user){
         user.setId(userID);
         userService.saveUser(user);
         
         return "redirect:/admin/usuarios";
     }
+
+    @Autowired
+	private RelatorioService relatorioService;
+	
+    
+	@GetMapping("/admin/relatorio/favoritos")
+	public ResponseEntity<byte[]> gerarRelatorioFavoritos() {
+		
+		byte[] relatorio = relatorioService.gerarRelatorioFavoritos();
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE)
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=relatorioFavoritos.pdf")
+				.body(relatorio);
+	}
 }

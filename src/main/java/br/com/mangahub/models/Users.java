@@ -13,17 +13,15 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 public class Users implements Serializable {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "VARCHAR(255)")
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @OneToMany(mappedBy = "user", fetch=FetchType.EAGER)
     private Collection<Favorites> favorites;
@@ -61,11 +59,11 @@ public class Users implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
     private LocalDateTime updatedAt;
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

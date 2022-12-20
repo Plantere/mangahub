@@ -1,6 +1,6 @@
 CREATE TABLE chapters_pages (
    id serial PRIMARY KEY,
-   chapter_id serial NOT NULL,
+   chapter_id integer NOT NULL,
    number integer NOT NULL,
    image bytea NOT NULL,
    deleted_at timestamp,

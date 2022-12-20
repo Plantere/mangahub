@@ -1,7 +1,7 @@
 CREATE TABLE chapters_reads (
    id serial PRIMARY KEY,
-   user_id uuid NOT NULL,
-   chapter_id serial NOT NULL,
+   user_id integer NOT NULL,
+   chapter_id integer NOT NULL,
    page_stop integer NOT NULL,
    deleted_at timestamp,
    created_at timestamp NOT NULL,

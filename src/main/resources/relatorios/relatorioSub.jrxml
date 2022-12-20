@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioSub" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e811d64c-9260-4c32-add1-3b92d96a0006">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+	<parameter name="UserID" class="java.lang.Long"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT favorites.user_id,
+	mangas.name,
+	mangas.description,
+	mangas.released_at,
+	favorites.created_at
+FROM favorites
+	INNER JOIN mangas ON 
+	 favorites.manga_id = mangas.id WHERE user_id = $P{UserID}]]>
+	</queryString>
+	<field name="user_id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="user_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="user_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="favorites"/>
+	</field>
+	<field name="name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="name"/>
+		<property name="com.jaspersoft.studio.field.label" value="name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="mangas"/>
+	</field>
+	<field name="description" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="description"/>
+		<property name="com.jaspersoft.studio.field.label" value="description"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="mangas"/>
+	</field>
+	<field name="released_at" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="released_at"/>
+		<property name="com.jaspersoft.studio.field.label" value="released_at"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="mangas"/>
+	</field>
+	<field name="created_at" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="created_at"/>
+		<property name="com.jaspersoft.studio.field.label" value="created_at"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="favorites"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="103" splitType="Stretch">
+			<textField>
+				<reportElement x="80" y="0" width="90" height="20" uuid="66d9b19a-cc77-478a-ba20-65dfc9125b23"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="80" height="20" uuid="fa80425b-3947-46f7-b2d8-6cec2d87e3fd"/>
+				<text><![CDATA[Nome do Manga: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="20" width="420" height="50" uuid="b333ca49-9fd3-4b4d-acc9-26d50f79a55c"/>
+				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="20" width="100" height="20" uuid="7b6a069d-cfd7-43cd-9ee2-65acc3f88bbb"/>
+				<text><![CDATA[Descrição do Manga:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="70" width="100" height="20" uuid="51947522-da8e-4501-88d5-86721de67978"/>
+				<textFieldExpression><![CDATA[$F{released_at}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="70" width="100" height="20" uuid="f3df8fc0-963a-4b78-bbaa-e84d20f8e524"/>
+				<text><![CDATA[Data de Lançamento:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="90" width="100" height="13" uuid="73a407c1-bac9-4060-aff3-318a70a8ea6f"/>
+				<textFieldExpression><![CDATA[$F{created_at}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="90" width="130" height="13" uuid="49cafec1-0b63-4efa-8f9d-2ba2238b89d7"/>
+				<text><![CDATA[Adicionado aos Favoritos: ]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

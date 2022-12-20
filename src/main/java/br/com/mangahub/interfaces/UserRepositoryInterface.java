@@ -9,13 +9,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.UUID;
-
 import javax.transaction.Transactional;
 
-public interface UserRepositoryInterface extends JpaRepository<Users, UUID>, UserQueries {
+public interface UserRepositoryInterface extends JpaRepository<Users, Long>, UserQueries {
     Users findOneByEmailAndDeletedAtIsNull(String email);
-    Users findOneByIdAndDeletedAtIsNull(UUID id);
+    Users findOneByIdAndDeletedAtIsNull(Long id);
 
     Page<Users> findAllByDeletedAtIsNull(Pageable page);
     
@@ -23,5 +21,5 @@ public interface UserRepositoryInterface extends JpaRepository<Users, UUID>, Use
     @Query("update #{#entityName} e set e.deletedAt = now() where e.id = ?1")
     @Transactional
     @Modifying
-    void deleteById(UUID id);
+    void deleteById(Long id);
 }

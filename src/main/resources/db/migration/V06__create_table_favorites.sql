@@ -1,7 +1,7 @@
 CREATE TABLE favorites (
    id serial PRIMARY KEY,
-   user_id uuid NOT NULL,
-   manga_id serial NOT NULL,
+   user_id integer NOT NULL,
+   manga_id integer NOT NULL,
    deleted_at timestamp,
    created_at timestamp NOT NULL,
    updated_at timestamp,
