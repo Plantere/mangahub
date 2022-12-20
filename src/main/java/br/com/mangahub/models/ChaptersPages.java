@@ -2,15 +2,12 @@ package br.com.mangahub.models;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Base64;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -35,9 +32,7 @@ public class ChaptersPages implements Serializable {
     private Chapters chapter;
 
     @Column(name = "image")
-    @Type(type="org.hibernate.type.BinaryType")
-    @Basic(fetch = FetchType.LAZY)
-    private byte[] imagePage;
+    private String imagePage;
 
     @Column(name = "deleted_at")
     @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
@@ -61,11 +56,11 @@ public class ChaptersPages implements Serializable {
         this.id = id;
     }
 
-    public byte[] getImagePage() {
+    public String getImagePage() {
         return imagePage;
     }
 
-    public void setImagePage(byte[] imagePage) {
+    public void setImagePage(String imagePage) {
         this.imagePage = imagePage;
     }
 
@@ -107,9 +102,5 @@ public class ChaptersPages implements Serializable {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public String getImagePageAsBase64(){
-        return new String(Base64.getEncoder().encode(this.getImagePage()));
     }
 }

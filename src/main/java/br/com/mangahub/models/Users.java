@@ -159,7 +159,7 @@ public class Users implements Serializable {
 
     public Boolean isFavorited(Long mangaID){
         for (Favorites favorite : getFavorites()) {
-            if(favorite.getDeletedAt() == null && favorite.getManga().getId() == mangaID){
+            if(favorite.getDeletedAt() == null && favorite.getManga().getId().equals(mangaID)){
                 return true;
             }
         }

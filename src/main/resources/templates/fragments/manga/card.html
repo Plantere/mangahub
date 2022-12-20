@@ -1,5 +1,5 @@
 <a th:href="@{/manga/{mangaID}(mangaID=${manga.id})}" class="flex flex-col items-center rounded-lg md:flex-row border-card" th:fragment="common_header(manga)">
-    <img class="object-cover w-full h-96 p-1 rounded-t-lg md:h-auto md:rounded-none md:rounded-l-lg" style="min-width: 207px; max-width: 207px; min-height: 300px; max-height: 300px;" th:src="@{data:image/png;base64,{byte}(byte=${manga.getImageCoverInBase64()})}">
+    <img class="object-cover w-full h-96 p-1 rounded-t-lg md:h-auto md:rounded-none md:rounded-l-lg" style="min-width: 207px; max-width: 207px; min-height: 300px; max-height: 300px;" th:src="${manga.getMangaCover()}">
     <div class="flex flex-col justify-between p-4 mr-12 leading-normal">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" th:text="${manga.mangaName}">Solo Leveling</h5>
         <p class="mb-3 font-normal text-gray-700 dark:text-gray-400" th:text="|${manga.getTotalChapters()} Capitulos|">50 Capitulos</p>

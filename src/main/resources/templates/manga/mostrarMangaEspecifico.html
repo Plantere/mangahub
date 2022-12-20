@@ -34,7 +34,7 @@
             </div>
             <div class="flex items-center">
                 <div class="pl-12 pr-12">
-                    <img class="rounded-lg" style="min-width: 240px; max-width: 240px; min-height: 365px; max-height: 365px;" th:src="@{data:image/png;base64,{byte}(byte=${manga.getImageCoverInBase64()})}">
+                    <img class="rounded-lg" style="min-width: 240px; max-width: 240px; min-height: 365px; max-height: 365px;" th:src="${manga.getMangaCover()}">
                 </div>
                 <div class="flex-1 w-96">
                     <h1 class="mb-2 text-5xl font-bold tracking-tight text-gray-900 dark:text-white" th:text="${manga.mangaName}" />

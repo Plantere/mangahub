@@ -28,42 +28,15 @@ public class MangaService {
         return mangaRepository.findAllByDeletedAtIsNull(PageRequest.of(page, 12));
 
     }
-    public boolean saveManga(Mangas manga, MultipartFile imageCover){
-        manga.setMangaCover(getImageByte(imageCover));
+    public boolean saveManga(Mangas manga){
         mangaRepository.save(manga);
         return true;
     }
 
-    public boolean updateManga(Long mangaID, Mangas manga, MultipartFile imageCover){
-        if(imageCover.isEmpty()){
-            Optional<Mangas> mangaOriginal = mangaRepository.findById(mangaID);
-            manga.setMangaCover(mangaOriginal.get().getMangaCover());
-        }else{
-            manga.setMangaCover(getImageByte(imageCover));
-        }
-
+    public boolean updateManga(Long mangaID, Mangas manga){
         manga.setId(mangaID);
         mangaRepository.save(manga);
         return true;
-    }
-
-    public byte[] getImageByte(MultipartFile image){
-        byte[] imageByte = new byte[0];
-        
-        try{
-            imageByte = new byte[image.getBytes().length];
-
-            int i = 0;
-    
-            for (byte b : image.getBytes()){
-                imageByte[i++] = b;
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return imageByte;
     }
 
     public boolean deleteManga(Long mangaID){

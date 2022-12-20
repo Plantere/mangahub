@@ -11,8 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
@@ -46,25 +44,25 @@ public class AdminMangaController {
     }
 
     @PostMapping("/admin/manga/registrar")
-    public String createManga(@RequestParam("imageCover") MultipartFile imageCover, @Valid Mangas manga, BindingResult result, Model model){
+    public String createManga(@Valid Mangas manga, BindingResult result, Model model){
         if(result.hasErrors()){
             model.addAttribute("errors", result);
             model.addAttribute("manga", manga);
             return "manga/admin/registrarManga";
         }
 
-        mangaService.saveManga(manga, imageCover);
+        mangaService.saveManga(manga);
         return "redirect:/";
     }
 
     @PostMapping("/admin/manga/atualizar/{mangaID}")
-    public String updateManga(@RequestParam("imageCover") MultipartFile imageCover, @PathVariable(required=false, name="mangaID") Long mangaID, Mangas manga, BindingResult result, Model model){
+    public String updateManga(@PathVariable(required=false, name="mangaID") Long mangaID, Mangas manga, BindingResult result, Model model){
         if(result.hasErrors()){
             model.addAttribute("manga", manga);
             return "manga/admin/atualizarManga";
         }
 
-        mangaService.updateManga(mangaID, manga, imageCover);
+        mangaService.updateManga(mangaID, manga);
         return "redirect:/manga/"+mangaID;
     }
 

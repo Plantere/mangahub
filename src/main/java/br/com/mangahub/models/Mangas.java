@@ -1,7 +1,6 @@
 package br.com.mangahub.models;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,7 +12,6 @@ import javax.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Base64;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,9 +39,7 @@ public class Mangas implements Serializable{
     private Long ageGroup;
 
     @Column(name = "cover")
-    @Type(type="org.hibernate.type.BinaryType")
-    @Basic(fetch = FetchType.LAZY)
-    private byte[] mangaCover;
+    private String mangaCover;
     
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
@@ -98,11 +94,11 @@ public class Mangas implements Serializable{
         this.ageGroup = ageGroup;
     }
 
-    public byte[] getMangaCover() {
+    public String getMangaCover() {
         return mangaCover;
     }
 
-    public void setMangaCover(byte[] mangaCover) {
+    public void setMangaCover(String mangaCover) {
         this.mangaCover = mangaCover;
     }
 
@@ -144,10 +140,6 @@ public class Mangas implements Serializable{
 
     public void setChapters(Collection<Chapters> chapters) {
         this.chapters = chapters;
-    }
-
-    public String getImageCoverInBase64(){
-        return new String(Base64.getEncoder().encode(this.getMangaCover()));
     }
 
     public Integer getTotalChapters(){

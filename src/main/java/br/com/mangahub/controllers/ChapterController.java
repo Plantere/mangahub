@@ -17,8 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class ChapterController {
@@ -112,14 +110,14 @@ public class ChapterController {
     }
 
     @PostMapping("/admin/capitulo/{capituloID}/registrar/pagina") // Registrar Pagina
-    public String createChapterPage(@PathVariable(required=true, name="capituloID") Long capituloID, @RequestParam("imagePageFile") MultipartFile imagePage, ChaptersPages chaptersPages){
+    public String createChapterPage(@PathVariable(required=true, name="capituloID") Long capituloID, ChaptersPages chaptersPages){
         Optional<Chapters> chapter = chapterRepository.findById(capituloID);
         if(chapter.isPresent() == false){
             return "redirect:/";
         }
 
         chaptersPages.setChapter(chapter.get());
-        chapterPageService.saveChapterPage(chaptersPages, imagePage);
+        chapterPageService.saveChapterPage(chaptersPages);
         
         return "redirect:/";
     }
