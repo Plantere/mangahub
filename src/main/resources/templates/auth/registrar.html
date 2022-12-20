@@ -84,6 +84,7 @@
 
           <form class="space-y-4 md:space-y-6" method="POST" th:action="@{/registrar}" th:object="${user}">
             <div>
+              <input style="display: none;" type="text" id="roles" name="roles" value="2" required>
               <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome</label>
               <input type="text" th:field="*{name}" class="bg-neutral-50 border border-black text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-neutral-700 dark:border-black-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Grosbilda Juliana" required>
               <span th:if="${errors.hasFieldErrors('name')}" th:text="${errors.getFieldError('name').getDefaultMessage()}" class="mt-2 text-sm text-red-600 dark:text-red-500"> Some error message.</span>

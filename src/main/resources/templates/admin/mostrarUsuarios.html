@@ -40,6 +40,9 @@
                                 Data de Criação
                             </th>
                             <th scope="col" class="py-3 px-6">
+                                Papel
+                            </th>
+                            <th scope="col" class="py-3 px-6">
                                 Total de Favoritos
                             </th>
                             <th scope="col" class="py-3 px-3">
@@ -49,14 +52,11 @@
                     </thead>
                     <tbody>
                         <tr class="dark:bg-neutral-800 dark:border-gray-700" th:each="user : ${users}">
-                            <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white" th:text="${user.name}">
-                            </th>
-                            <td class="py-4 px-6" th:text="${user.email}">
-                            </td>
-                            <td class="py-4 px-6" th:text="${user.obterDataDeCriacao()}">
-                            </td>
-                            <td class="py-4 px-6" th:text="${user.favorites.size()}">
-                            </td>
+                            <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white" th:text="${user.name}"></th>
+                            <td class="py-4 px-6" th:text="${user.email}"></td>
+                            <td class="py-4 px-6" th:text="${user.obterDataDeCriacao()}"></td>
+                            <td class="py-4 px-6" th:text="${user.getRoles().getName() == 'ROLE_ADMIN' ? 'Administrador' : 'Usuario'}"></td>
+                            <td class="py-4 px-6" th:text="${user.favorites.size()}"></td>
                             <td class="py-3 px-3">
                                 <div class="flex place-content-end">
                                     <a th:href="@{/admin/usuario/atualizar/{userID}(userID=${user.id})}" class="pr-5">
@@ -135,6 +135,13 @@
                             <div>
                                 <label for="favoritoMenorQue" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Favoritos menor que</label>
                                 <input id="favoritoMenorQue" name="favoritoMenorQue" placeholder="" type="text" class="bg-neutral-50 border border-black text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-neutral-700 dark:border-black-600 dark:placeholder-gray-400 dark:text-white">
+                            </div>
+                            <div>
+                                <label for="Papel" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Papel</label>
+                                <select name="role" autocomplete="off" id="role" class="bg-neutral-50 border border-black text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-neutral-700 dark:border-black-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option disabled value="0" selected>Selecione um Papel</option>
+                                    <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+                                </select>
                             </div>
                         </div>
                         <div class="flex items-center p-6 space-x-2 rounded-b dark:border-gray-600">

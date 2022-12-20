@@ -2,6 +2,8 @@ package br.com.mangahub.models.filters;
 
 import java.time.LocalDateTime;
 
+import br.com.mangahub.models.Roles;
+
 public class UsersFilter {
 	private String name;
 	private String email;
@@ -11,13 +13,16 @@ public class UsersFilter {
 
     private Long favoritosMaiorQue;
 	private Long favoritosMenorQue;
+
+	private Long role;
     
-	@Override
-    public String toString() {
-        return "UsersFilter [name=" + name + ", email=" + email + ", dataCriacaoMaiorQue=" + dataCriacaoMaiorQue
-                + ", dataCriacaoMenorQue=" + dataCriacaoMenorQue + ", favoritosMaiorQue=" + favoritosMaiorQue
-                + ", favoritosMenorQue=" + favoritosMenorQue + "]";
+	public Long getRole() {
+        return role;
     }
+    public void setRole(Long role) {
+        this.role = role;
+    }
+
     public String getName() {
         return name;
     }

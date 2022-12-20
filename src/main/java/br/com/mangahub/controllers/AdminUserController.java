@@ -45,6 +45,7 @@ public class AdminUserController {
         
 		Page<Users> usersPage = userRepository.pesquisar(filtro, pageable);
 
+		model.addAttribute("roles", roleRepository.findAll());
 		model.addAttribute("users", usersPage);
         
         int totalPages = usersPage.getTotalPages();

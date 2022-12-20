@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import br.com.mangahub.interfaces.pagination.PaginacaoUtil;
+import br.com.mangahub.models.Roles;
 import br.com.mangahub.models.Users;
 import br.com.mangahub.models.filters.UsersFilter;
 
@@ -53,8 +54,13 @@ public class UserQueriesImpl implements UserQueries {
         if (filter.getName() != null && !filter.getName().isEmpty()) {
 			predicateList.add(builder.like(builder.lower(user.<String>get("name")), "%" + filter.getName().toLowerCase() + "%"));
 		}
-        if (filter.getEmail() != null && !filter.getEmail().isEmpty()) {
+        
+		if (filter.getEmail() != null && !filter.getEmail().isEmpty()) {
 			predicateList.add(builder.like(builder.lower(user.<String>get("email")), "%" + filter.getName().toLowerCase() + "%"));
+		}
+
+		if (filter.getRole() != null && filter.getRole() != 0) {
+			predicateList.add(builder.equal(user.get("roles"), filter.getRole()));
 		}
 
 		predicateList.add(builder.isNull(user.<LocalDateTime>get("deletedAt")));

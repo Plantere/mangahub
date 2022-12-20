@@ -25,20 +25,8 @@ public class UserService {
     public boolean saveUser(Users user){
         String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
         user.setPassword(hashedPassword);
-
-        Users newUser = userRepository.save(user);
-
-        RolesUsers rolesUsers = new RolesUsers();
-        rolesUsers.setUser(newUser);
         
-        if(user.getRole() == null){
-            rolesUsers.setRole(roleRepository.findByName("ROLE_USER").get());
-        } else {
-            rolesUsers.setRole(roleRepository.findById(user.getRole()).get());
-        }
-
-        roleUserRepository.save(rolesUsers);
-
+        userRepository.save(user);
         return true;
     }
 
