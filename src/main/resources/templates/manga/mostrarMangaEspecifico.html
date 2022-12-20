@@ -25,7 +25,7 @@
                                     <a th:href="@{/admin/manga/deletar/{mangaID}(mangaID=${manga.id})}" onclick="return confirm('Tem certeza que deseja deletar o Manga?');" class="block py-2 px-4 dark:hover:bg-neutral-500 dark:hover:text-white">Deletar Manga</a>
                                 </li>
                                 <li>
-                                    <a th:href="@{/manga/{mangaID}/capitulo/registrar(mangaID=${manga.id})}" class="block py-2 px-4 dark:hover:bg-neutral-500 dark:hover:text-white">Adicionar Capitulo</a>
+                                    <a th:href="@{/admin/manga/{mangaID}/capitulo/registrar(mangaID=${manga.id})}" class="block py-2 px-4 dark:hover:bg-neutral-500 dark:hover:text-white">Adicionar Capitulo</a>
                                 </li>
                             </ul>
                         </div>
@@ -50,13 +50,13 @@
                                                 <a th:href="@{/manga/{mangaID}/capitulo/{capituloID}(mangaID=${manga.id}, capituloID=${chapter.id})}" class="block py-2 px-4 dark:hover:bg-neutral-500 dark:hover:text-white">Ler Capitulo</a>
                                             </li>
                                             <li sec:authorize="isAuthenticated() && hasRole('ROLE_ADMIN')">
-                                                <a th:href="@{/manga/{mangaID}/capitulo/{capituloID}/atualizar(mangaID=${manga.id}, capituloID=${chapter.id})}" class="block py-2 px-4 dark:hover:bg-neutral-500 dark:hover:text-white">Editar Capitulo</a>
+                                                <a th:href="@{/admin/manga/{mangaID}/capitulo/{capituloID}/atualizar(mangaID=${manga.id}, capituloID=${chapter.id})}" class="block py-2 px-4 dark:hover:bg-neutral-500 dark:hover:text-white">Editar Capitulo</a>
                                             </li>
                                             <li sec:authorize="isAuthenticated() && hasRole('ROLE_ADMIN')">
-                                                <a th:href="@{/capitulo/{capituloID}/registrar/pagina(capituloID=${chapter.id})}" class="block py-2 px-4 dark:hover:bg-neutral-500 dark:hover:text-white">Adicionar Pagina</a>
+                                                <a th:href="@{/admin/capitulo/{capituloID}/registrar/pagina(capituloID=${chapter.id})}" class="block py-2 px-4 dark:hover:bg-neutral-500 dark:hover:text-white">Adicionar Pagina</a>
                                             </li>
                                             <li sec:authorize="isAuthenticated() && hasRole('ROLE_ADMIN')">
-                                                <a th:href="@{/manga/{mangaID}/capitulo/{capituloID}/deletar(mangaID=${manga.id}, capituloID=${chapter.id})}" class="block py-2 px-4 dark:hover:bg-neutral-500 dark:hover:text-white">Deletar Capitulo</a>
+                                                <a th:href="@{/admin/manga/{mangaID}/capitulo/{capituloID}/deletar(mangaID=${manga.id}, capituloID=${chapter.id})}" class="block py-2 px-4 dark:hover:bg-neutral-500 dark:hover:text-white">Deletar Capitulo</a>
                                             </li>
                                         </ul>
                                     </div>

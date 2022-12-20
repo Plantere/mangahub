@@ -26,7 +26,7 @@ public class ChaptersReads implements Serializable {
     private Chapters chapter;
 
     @Column(name = "page_stop")
-    private int pageStop;
+    private Long pageStop;
 
     @Column(name = "deleted_at")
     @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
@@ -58,11 +58,11 @@ public class ChaptersReads implements Serializable {
         this.user = user;
     }
 
-    public int getPageStop() {
+    public Long getPageStop() {
         return pageStop;
     }
 
-    public void setPageStop(int pageStop) {
+    public void setPageStop(Long pageStop) {
         this.pageStop = pageStop;
     }
 

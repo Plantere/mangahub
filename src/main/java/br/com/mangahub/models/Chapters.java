@@ -2,9 +2,14 @@ package br.com.mangahub.models;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -26,12 +31,17 @@ public class Chapters implements Serializable {
     @OneToMany(mappedBy= "chapter", fetch=FetchType.EAGER)
     private Collection<ChaptersPages> chaptersPages;
 
+    @NotNull(message = "O numero do capitulo é obrigatorio")
+    @Min(value=0)
     @Column(name = "number")
-    private int chapterNumber;
+    private Long chapterNumber;
 
+    @NotBlank(message = "O titulo é obrigatorio")
+    @Length(min=10, max=400)
     @Column(name = "title")
     private String chapterTitle;
     
+    @NotNull(message = "A data de lançamento é obrigatoria")
     @Column(name = "released_at")
     @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
     private LocalDateTime releasedAt;
@@ -74,11 +84,11 @@ public class Chapters implements Serializable {
         this.chaptersPages = chaptersPages;
     }
 
-    public int getChapterNumber() {
+    public Long getChapterNumber() {
         return chapterNumber;
     }
 
-    public void setChapterNumber(int chapterNumber) {
+    public void setChapterNumber(Long chapterNumber) {
         this.chapterNumber = chapterNumber;
     }
 

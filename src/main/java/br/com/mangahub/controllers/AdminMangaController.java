@@ -4,6 +4,8 @@ import br.com.mangahub.models.Mangas;
 import br.com.mangahub.services.MangaService;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
 @Controller
 public class AdminMangaController {
@@ -22,14 +25,15 @@ public class AdminMangaController {
     private MangaRepositoryInterface mangaRepository;
 
     @GetMapping("/admin/manga/registrar")
-    public String redirectRegisterMangaPage(Mangas manga, Model model){
+    public String redirectRegisterMangaPage(Mangas manga, BindingResult result,Model model){
+        model.addAttribute("errors", result);
         model.addAttribute("manga", manga);
     
         return "manga/admin/registrarManga";
     }
 
     @GetMapping("/admin/manga/atualizar/{mangaID}")
-    public String redirectUpdateMangaPage(@PathVariable(required=true, name="mangaID") Long mangaID, Model model){
+    public String redirectUpdateMangaPage(@PathVariable(required=false, name="mangaID") Long mangaID, Model model){
         Optional<Mangas> manga = mangaRepository.findById(mangaID);
 
         if(manga.isPresent() == false){
@@ -42,13 +46,24 @@ public class AdminMangaController {
     }
 
     @PostMapping("/admin/manga/registrar")
-    public String createManga(@RequestParam("imageCover") MultipartFile imageCover, Mangas manga){
+    public String createManga(@RequestParam("imageCover") MultipartFile imageCover, @Valid Mangas manga, BindingResult result, Model model){
+        if(result.hasErrors()){
+            model.addAttribute("errors", result);
+            model.addAttribute("manga", manga);
+            return "manga/admin/registrarManga";
+        }
+
         mangaService.saveManga(manga, imageCover);
         return "redirect:/";
     }
 
     @PostMapping("/admin/manga/atualizar/{mangaID}")
-    public String updateManga(@RequestParam("imageCover") MultipartFile imageCover, @PathVariable(required=true, name="mangaID") Long mangaID, Mangas manga){
+    public String updateManga(@RequestParam("imageCover") MultipartFile imageCover, @PathVariable(required=false, name="mangaID") Long mangaID, Mangas manga, BindingResult result, Model model){
+        if(result.hasErrors()){
+            model.addAttribute("manga", manga);
+            return "manga/admin/atualizarManga";
+        }
+
         mangaService.updateManga(mangaID, manga, imageCover);
         return "redirect:/manga/"+mangaID;
     }

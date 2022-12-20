@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.util.Base64;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
@@ -22,8 +25,10 @@ public class ChaptersPages implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @NotNull(message = "O numero da pagina é obrigatorio")
+    @Min(value=0)
     @Column(name = "number")
-    private int page;
+    private Long page;
 
     @ManyToOne
     @JoinColumn(name="chapter_id")
@@ -64,11 +69,11 @@ public class ChaptersPages implements Serializable {
         this.imagePage = imagePage;
     }
 
-    public int getPage() {
+    public Long getPage() {
         return page;
     }
 
-    public void setPage(int page) {
+    public void setPage(Long page) {
         this.page = page;
     }
 

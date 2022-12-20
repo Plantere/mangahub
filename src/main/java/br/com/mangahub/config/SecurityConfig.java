@@ -23,9 +23,11 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
 		.authorizeRequests()
-			.antMatchers("/css/**", "/js/**", "/images/**", "/", "/index.html")
+			.antMatchers("/css/**", "/js/**", "/images/**", "/", "/index.html", "/logar", "/registrar", "/manga/**")
                 .permitAll()
-			    .and()
+                .antMatchers("/favorito/**", "/usuario/**", "/error/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .and()
             .formLogin()
                 .loginPage("/logar")
                 .permitAll()

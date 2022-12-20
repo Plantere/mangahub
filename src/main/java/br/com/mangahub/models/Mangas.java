@@ -5,7 +5,11 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
+
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -24,14 +28,17 @@ public class Mangas implements Serializable{
     @Column(name = "id")
     private Long id;
 
+    @NotBlank(message = "O nome do manga é obrigatorio")
     @Column(name = "name")
     private String mangaName;
 
+    @NotBlank(message = "O descrição é obrigatoria")
     @Column(name = "description")
     private String mangaDescription;
 
+    @NotNull(message = "A faixa etaria é obrigatoria")
     @Column(name = "age_group")
-    private int ageGroup;
+    private Long ageGroup;
 
     @Column(name = "cover")
     @Type(type="org.hibernate.type.BinaryType")
@@ -40,7 +47,8 @@ public class Mangas implements Serializable{
     
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
-
+    
+    @NotNull(message = "A data de lançamento é obrigatoria")
     @Column(name = "released_at")
     @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
     private LocalDateTime releasedAt;
@@ -82,11 +90,11 @@ public class Mangas implements Serializable{
         this.mangaDescription = mangaDescription;
     }
 
-    public int getAgeGroup() {
+    public Long getAgeGroup() {
         return ageGroup;
     }
 
-    public void setAgeGroup(int ageGroup) {
+    public void setAgeGroup(Long ageGroup) {
         this.ageGroup = ageGroup;
     }
 

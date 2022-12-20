@@ -6,6 +6,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -15,12 +18,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "users")
 public class Users implements Serializable {
-    @Override
-    public String toString() {
-        return "Users [id=" + id + ", email=" + email + ", status=" + status + ", role=" + role + ", password="
-                + password + ", deletedAt=" + deletedAt + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
-                + ", name=" + name + "]";
-    }
 
     @Id
     @GeneratedValue(generator = "uuid")
@@ -28,20 +25,27 @@ public class Users implements Serializable {
     @Column(name = "id", columnDefinition = "VARCHAR(255)")
     private UUID id;
 
-    @Column(name = "email")
-    private String email;
-
     @OneToMany(mappedBy = "user", fetch=FetchType.EAGER)
     private Collection<Favorites> favorites;
     
+    @NotBlank(message = "O E-mail é obrigatorio")
+    @Email(message="O e-mail informado não consta num formato valido")
+    @Column(name = "email")
+    private String email;
+
+    @NotBlank(message = "A senha é obrigatoria")
+    @Column(name = "password")
+    private String password;
+
+    @NotBlank(message = "O Nome é obrigatorio")
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "status")
     private Long status = Long.valueOf(1);
 
     @Column(name = "role")
     private Long role = null;
-
-    @Column(name = "password")
-    private String password;
 
     @Column(name = "deleted_at")
     @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
@@ -56,9 +60,6 @@ public class Users implements Serializable {
     @UpdateTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd H:m:s")
     private LocalDateTime updatedAt;
-
-    @Column(name = "name")
-    private String name;
 
     public UUID getId() {
         return id;
